@@ -16,6 +16,10 @@ export class Board {
       .map(() => new Array(this.width).fill("."));
   }
 
+  hasFalling() {
+    return this.falling !== undefined;
+  }
+
   drop(block) {
     if (this.falling === undefined) {
       let color = block.getColor();
@@ -29,9 +33,13 @@ export class Board {
   tick() {
     let orginPos = [];
 
-    for (let i = 0; i < this.board.length - 1; i++) {
+    for (let i = 0; i < this.board.length; i++) {
       for (let j = 0; j < this.board[0].length; j++) {
         if (this.board[i][j] !== ".") {
+          if (i === this.height - 1) {
+            this.falling = undefined;
+            return;
+          }
           orginPos.push({ i: i + 1, j: j, color: this.board[i][j] });
           this.board[i][j] = ".";
         }
@@ -42,9 +50,6 @@ export class Board {
     for (const pos of orginPos) {
       let i, j, color;
       ({ i, j, color } = pos);
-      if (i === this.height - 1) {
-        this.falling = undefined;
-      }
       this.board[i][j] = color;
     }
   }
