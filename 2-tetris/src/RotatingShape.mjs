@@ -11,6 +11,9 @@ export class RotatingShape {
     if (this.shapeType === "I") {
       return this.handleIShape();
     }
+    if (this.shapeType === "O") {
+      return this;
+    }
     // this function should return a new Shape
     let copy = this.shape.map((row) => row.slice());
     let newShapeStr = copy[0]
@@ -23,6 +26,9 @@ export class RotatingShape {
   rotateLeft() {
     if (this.shapeType === "I") {
       return this.handleIShape();
+    }
+    if (this.shapeType === "O") {
+      return this;
     }
     let copy = this.shape.map((row) => row.slice());
     let newShapeStr = copy[0]
