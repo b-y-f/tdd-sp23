@@ -6,8 +6,7 @@ export class Board {
     this.width = width;
     this.height = height;
     this.board = this.createBoard(width, height);
-    this.falling = undefined;
-    this.inBottom = undefined;
+    this.falling = undefined; // {posX, posY, blk}
   }
 
   createBoard() {
@@ -24,33 +23,22 @@ export class Board {
     if (this.falling === undefined) {
       let color = block.getColor();
       this.board[0][1] = color;
-      this.falling = block;
+      this.falling = { pos_i: 0, pos_j: 1, blk: block };
     } else {
       throw new Error("already falling");
     }
   }
 
   tick() {
-    let orginPos = [];
-
-    for (let i = 0; i < this.board.length; i++) {
-      for (let j = 0; j < this.board[0].length; j++) {
-        if (this.board[i][j] !== ".") {
-          if (i === this.height - 1) {
-            this.falling = undefined;
-            return;
-          }
-          orginPos.push({ i: i + 1, j: j, color: this.board[i][j] });
-          this.board[i][j] = ".";
-        }
+    if (this.falling !== undefined) {
+      const { pos_i, pos_j, blk } = this.falling;
+      if (pos_i === this.height - 1 || this.board[pos_i + 1][pos_j] !== ".") {
+        this.falling = undefined;
+        return;
       }
-    }
-
-    // move down
-    for (const pos of orginPos) {
-      let i, j, color;
-      ({ i, j, color } = pos);
-      this.board[i][j] = color;
+      this.board[pos_i][pos_j] = ".";
+      this.board[pos_i + 1][pos_j] = blk.getColor();
+      this.falling = { pos_i: pos_i + 1, pos_j: pos_j, blk: blk };
     }
   }
 
