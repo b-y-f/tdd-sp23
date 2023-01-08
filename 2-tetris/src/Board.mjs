@@ -17,8 +17,13 @@ export class Board {
   }
 
   drop(block) {
-    let color = block.getColor();
-    this.board[0][1] = color;
+    if (this.falling === undefined) {
+      let color = block.getColor();
+      this.board[0][1] = color;
+      this.falling = block;
+    } else {
+      throw new Error("already falling");
+    }
   }
 
   tick() {
@@ -37,6 +42,9 @@ export class Board {
     for (const pos of orginPos) {
       let i, j, color;
       ({ i, j, color } = pos);
+      if (i === this.height - 1) {
+        this.falling = undefined;
+      }
       this.board[i][j] = color;
     }
   }
