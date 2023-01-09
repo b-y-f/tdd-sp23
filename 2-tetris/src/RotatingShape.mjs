@@ -1,10 +1,10 @@
-export class RotatingShape {
+import { Block } from "./Block.mjs";
+
+export class RotatingShape extends Block {
+  shapeType;
   constructor(shapeStr, shapeType) {
+    super(shapeStr);
     this.shapeType = shapeType;
-    this.shape = shapeStr
-      .split("\n")
-      .map((s) => s.replace(/\s+/g, "").split(""));
-    Object.freeze(this);
   }
 
   rotateRight() {
@@ -15,7 +15,7 @@ export class RotatingShape {
       return this;
     }
     // this function should return a new Shape
-    let copy = this.shape.map((row) => row.slice());
+    let copy = this.shapeArray.map((row) => row.slice());
     let newShapeStr = copy[0]
       .map((val, index) => copy.map((row) => row[index]).reverse())
       .map((row) => row.join(""))
@@ -30,7 +30,7 @@ export class RotatingShape {
     if (this.shapeType === "O") {
       return this;
     }
-    let copy = this.shape.map((row) => row.slice());
+    let copy = this.shapeArray.map((row) => row.slice());
     let newShapeStr = copy[0]
       .map((val, index) => copy.map((row) => row[row.length - 1 - index]))
       .map((row) => row.join(""))
@@ -39,7 +39,7 @@ export class RotatingShape {
   }
 
   handleIShape() {
-    if (this.shape[0][2] === "I") {
+    if (this.shapeArray[0][2] === "I") {
       return new RotatingShape(".....\n.....\nIIII.\n.....\n.....", "I");
     } else {
       return new RotatingShape("..I..\n..I..\n..I..\n..I..\n.....", "I");
@@ -47,6 +47,6 @@ export class RotatingShape {
   }
 
   toString() {
-    return this.shape.map((row) => row.join("")).join("\n") + "\n";
+    return this.shapeArray.map((row) => row.join("")).join("\n") + "\n";
   }
 }

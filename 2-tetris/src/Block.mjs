@@ -1,10 +1,15 @@
 export class Block {
-  color;
+  blockString;
+  shapeArray;
 
-  constructor(color) {
-    this.color = color;
+  constructor(blockString) {
+    this.blockString = blockString;
+    this.shapeArray = blockString
+      .split("\n")
+      .map((s) => s.replace(/\s+/g, "").split(""));
+    // Object.freeze(this);
   }
   getColor() {
-    return this.color;
+    return this.blockString;
   }
 }
