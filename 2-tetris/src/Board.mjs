@@ -27,7 +27,7 @@ export class Board {
   }
 
   drop(block) {
-    if (this.falling !== undefined) {
+    if (this.hasFalling()) {
       throw new Error("already falling");
     }
 
