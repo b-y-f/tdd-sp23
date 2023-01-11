@@ -10,6 +10,12 @@ export class Board {
     this.middle = Math.floor(width / 2);
   }
 
+  left() {}
+
+  right() {}
+
+  down() {}
+
   createBoard() {
     return new Array(this.height)
       .fill(".")
