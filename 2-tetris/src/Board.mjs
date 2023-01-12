@@ -48,9 +48,15 @@ export class Board {
         r: 0,
         c: this.middle - this.#findMiddle(Math.floor(block.width / 2)),
       };
-      for (let i = 0; i < block.height; i++) {
+      if (block.shapeType === "I") {
         for (let j = startPos.c; j < block.width + startPos.c; j++) {
-          this.board[i][j] = block.shapeArray[i][j - startPos.c];
+          this.board[0][j] = block.shapeArray[2][j - startPos.c];
+        }
+      } else {
+        for (let i = 0; i < block.height; i++) {
+          for (let j = startPos.c; j < block.width + startPos.c; j++) {
+            this.board[i][j] = block.shapeArray[i][j - startPos.c];
+          }
         }
       }
       this.falling = { pos_i: 1, pos_j: 3, blk: block };

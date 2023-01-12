@@ -58,7 +58,7 @@ describe("Falling tetrominoes", () => {
   });
 });
 
-describe("Some of my own test for other shapes", () => {
+describe("Some of my own test for different shapes falling together", () => {
   let board;
   beforeEach(() => {
     board = new Board(10, 6);
@@ -113,7 +113,7 @@ describe("Some of I shape drops", () => {
     board = new Board(10, 6);
   });
   // it("middle point should be ")
-  xit("Test O shape drop to board", () => {
+  it("Test O shape drop to board", () => {
     board.drop(Tetromino.I_SHAPE);
 
     expect(board.toString()).to.equalShape(
@@ -125,4 +125,6 @@ describe("Some of I shape drops", () => {
        ..........`
     );
   });
+
+  xit("All shapes together", () => {});
 });
