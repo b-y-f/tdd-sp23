@@ -17,7 +17,7 @@ export class RotatingShape extends Block {
     // this function should return a new Shape
     const copy = this.shapeArray.map((row) => row.slice());
     const newShapeStr = copy[0]
-      .map((val, index) => copy.map((row) => row[index]).reverse())
+      .map((_, index) => copy.map((row) => row[index]).reverse())
       .map((row) => row.join(""))
       .join("\n");
     return new RotatingShape(newShapeStr);
@@ -32,7 +32,7 @@ export class RotatingShape extends Block {
     }
     const copy = this.shapeArray.map((row) => row.slice());
     const newShapeStr = copy[0]
-      .map((val, index) => copy.map((row) => row[row.length - 1 - index]))
+      .map((_, index) => copy.map((row) => row[row.length - 1 - index]))
       .map((row) => row.join(""))
       .join("\n");
     return new RotatingShape(newShapeStr);

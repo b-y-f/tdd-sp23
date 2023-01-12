@@ -58,34 +58,36 @@ export class Board {
   }
 
   tick() {
-    if (this.falling !== undefined) {
-      const { pos_i: posI, pos_j: posJ, blk } = this.falling;
-
-      if (blk.width === 1) {
-        if (posI === this.height - 1 || this.board[posI + 1][posJ] !== ".") {
-          this.falling = undefined;
-          return;
-        }
-        this.board[posI][posJ] = ".";
-        this.board[posI + 1][posJ] = blk.shapeArray;
-      } else {
-        if (
-          posI === this.height - 1 ||
-          this.board[posI + 1][posJ + 1] !== "."
-        ) {
-          this.falling = undefined;
-          return;
-        }
-        for (let j = 3; j < blk.width + 3; j++) {
-          // move botom
-          this.board[posI + 1][j] = this.board[posI][j];
-          // move top
-          this.board[posI][j] = this.board[posI - 1][j];
-          this.board[posI - 1][j] = ".";
-        }
-      }
-      this.falling = { pos_i: posI + 1, pos_j: posJ, blk };
+    if (this.falling === undefined) {
+      return;
     }
+
+    const { pos_i: posI, pos_j: posJ, blk } = this.falling;
+    if (blk.width === 1) {
+      if (posI === this.height - 1 || this.board[posI + 1][posJ] !== ".") {
+        this.falling = undefined;
+        return;
+      }
+      this.board[posI][posJ] = ".";
+      this.board[posI + 1][posJ] = blk.shapeArray;
+    }
+    if (this.falling.blk.shapeType === "O") {
+      console.log("OO");
+    }
+    if (this.falling.blk.shapeType === "T") {
+      if (posI === this.height - 1 || this.board[posI + 1][posJ + 1] !== ".") {
+        this.falling = undefined;
+        return;
+      }
+      for (let j = 3; j < blk.width + 3; j++) {
+        // move botom
+        this.board[posI + 1][j] = this.board[posI][j];
+        // move top
+        this.board[posI][j] = this.board[posI - 1][j];
+        this.board[posI - 1][j] = ".";
+      }
+    }
+    this.falling = { pos_i: posI + 1, pos_j: posJ, blk };
   }
 
   toString() {
