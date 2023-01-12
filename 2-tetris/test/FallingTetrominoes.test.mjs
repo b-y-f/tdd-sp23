@@ -126,5 +126,17 @@ describe("Some of I shape drops", () => {
     );
   });
 
-  xit("All shapes together", () => {});
+  it("Can I shape falling to bottom?", () => {
+    board.drop(Tetromino.I_SHAPE);
+    fallToBottom(board);
+
+    expect(board.toString()).to.equalShape(
+      `..........
+       ..........
+       ..........
+       ..........
+       ..........
+       ...IIII...`
+    );
+  });
 });
