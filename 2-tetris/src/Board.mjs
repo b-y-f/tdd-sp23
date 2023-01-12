@@ -63,6 +63,7 @@ export class Board {
     }
 
     const { pos_i: posI, pos_j: posJ, blk } = this.falling;
+
     if (blk.width === 1) {
       if (posI === this.height - 1 || this.board[posI + 1][posJ] !== ".") {
         this.falling = undefined;
@@ -70,11 +71,7 @@ export class Board {
       }
       this.board[posI][posJ] = ".";
       this.board[posI + 1][posJ] = blk.shapeArray;
-    }
-    if (this.falling.blk.shapeType === "O") {
-      console.log("OO");
-    }
-    if (this.falling.blk.shapeType === "T") {
+    } else {
       if (posI === this.height - 1 || this.board[posI + 1][posJ + 1] !== ".") {
         this.falling = undefined;
         return;

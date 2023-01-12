@@ -77,6 +77,7 @@ describe("Some of my own test for other shapes", () => {
     );
   });
   it("test O shape one tick", () => {
+    board.drop(Tetromino.O_SHAPE);
     board.tick();
 
     expect(board.toString()).to.equalShape(
@@ -86,6 +87,22 @@ describe("Some of my own test for other shapes", () => {
        ..........
        ..........
        ..........`
+    );
+  });
+
+  it("test T falling on the top of O shape", () => {
+    board.drop(Tetromino.O_SHAPE);
+    fallToBottom(board);
+    board.drop(Tetromino.T_SHAPE);
+    fallToBottom(board);
+
+    expect(board.toString()).to.equalShape(
+      `..........
+       ..........
+       ....T.....
+       ...TTT....
+       ....OO....
+       ....OO....`
     );
   });
 });
