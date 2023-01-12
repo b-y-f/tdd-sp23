@@ -1,52 +1,52 @@
-import { Block } from "./Block.mjs";
+import { Block } from './Block.mjs'
 
 export class RotatingShape extends Block {
-  shapeType;
-  constructor(shapeStr, shapeType) {
-    super(shapeStr);
-    this.shapeType = shapeType;
+  shapeType
+  constructor (shapeStr, shapeType) {
+    super(shapeStr)
+    this.shapeType = shapeType
   }
 
-  rotateRight() {
-    if (this.shapeType === "I") {
-      return this.handleIShape();
+  rotateRight () {
+    if (this.shapeType === 'I') {
+      return this.handleIShape()
     }
-    if (this.shapeType === "O") {
-      return this;
+    if (this.shapeType === 'O') {
+      return this
     }
     // this function should return a new Shape
-    let copy = this.shapeArray.map((row) => row.slice());
-    let newShapeStr = copy[0]
+    const copy = this.shapeArray.map((row) => row.slice())
+    const newShapeStr = copy[0]
       .map((val, index) => copy.map((row) => row[index]).reverse())
-      .map((row) => row.join(""))
-      .join("\n");
-    return new RotatingShape(newShapeStr);
+      .map((row) => row.join(''))
+      .join('\n')
+    return new RotatingShape(newShapeStr)
   }
 
-  rotateLeft() {
-    if (this.shapeType === "I") {
-      return this.handleIShape();
+  rotateLeft () {
+    if (this.shapeType === 'I') {
+      return this.handleIShape()
     }
-    if (this.shapeType === "O") {
-      return this;
+    if (this.shapeType === 'O') {
+      return this
     }
-    let copy = this.shapeArray.map((row) => row.slice());
-    let newShapeStr = copy[0]
+    const copy = this.shapeArray.map((row) => row.slice())
+    const newShapeStr = copy[0]
       .map((val, index) => copy.map((row) => row[row.length - 1 - index]))
-      .map((row) => row.join(""))
-      .join("\n");
-    return new RotatingShape(newShapeStr);
+      .map((row) => row.join(''))
+      .join('\n')
+    return new RotatingShape(newShapeStr)
   }
 
-  handleIShape() {
-    if (this.shapeArray[0][2] === "I") {
-      return new RotatingShape(".....\n.....\nIIII.\n.....\n.....", "I");
+  handleIShape () {
+    if (this.shapeArray[0][2] === 'I') {
+      return new RotatingShape('.....\n.....\nIIII.\n.....\n.....', 'I')
     } else {
-      return new RotatingShape("..I..\n..I..\n..I..\n..I..\n.....", "I");
+      return new RotatingShape('..I..\n..I..\n..I..\n..I..\n.....', 'I')
     }
   }
 
-  toString() {
-    return this.shapeArray.map((row) => row.join("")).join("\n") + "\n";
+  toString () {
+    return this.shapeArray.map((row) => row.join('')).join('\n') + '\n'
   }
 }
