@@ -1,21 +1,21 @@
-import { expect } from 'chai'
-import { Board } from '../src/Board.mjs'
-import { Tetromino } from '../src/Tetromino.mjs'
+import { expect } from "chai";
+import { Board } from "../src/Board.mjs";
+import { Tetromino } from "../src/Tetromino.mjs";
 
-function fallToBottom (board) {
+function fallToBottom(board) {
   for (let i = 0; i < 10; i++) {
-    board.tick()
+    board.tick();
   }
 }
 
-describe('Falling tetrominoes', () => {
-  let board
+describe("Falling tetrominoes", () => {
+  let board;
   beforeEach(() => {
-    board = new Board(10, 6)
-  })
+    board = new Board(10, 6);
+  });
 
-  it('start from the top middle', () => {
-    board.drop(Tetromino.T_SHAPE)
+  it("start from the top middle", () => {
+    board.drop(Tetromino.T_SHAPE);
 
     expect(board.toString()).to.equalShape(
       `....T.....
@@ -24,12 +24,12 @@ describe('Falling tetrominoes', () => {
        ..........
        ..........
        ..........`
-    )
-  })
+    );
+  });
 
-  it('stop when they hit the bottom', () => {
-    board.drop(Tetromino.T_SHAPE)
-    fallToBottom(board)
+  it("stop when they hit the bottom", () => {
+    board.drop(Tetromino.T_SHAPE);
+    fallToBottom(board);
 
     expect(board.toString()).to.equalShape(
       `..........
@@ -38,14 +38,14 @@ describe('Falling tetrominoes', () => {
        ..........
        ....T.....
        ...TTT....`
-    )
-  })
+    );
+  });
 
-  it('stop when they land on another block', () => {
-    board.drop(Tetromino.T_SHAPE)
-    fallToBottom(board)
-    board.drop(Tetromino.T_SHAPE)
-    fallToBottom(board)
+  it("stop when they land on another block", () => {
+    board.drop(Tetromino.T_SHAPE);
+    fallToBottom(board);
+    board.drop(Tetromino.T_SHAPE);
+    fallToBottom(board);
 
     expect(board.toString()).to.equalShape(
       `..........
@@ -54,18 +54,18 @@ describe('Falling tetrominoes', () => {
        ...TTT....
        ....T.....
        ...TTT....`
-    )
-  })
-})
+    );
+  });
+});
 
-describe('Some of my own test for other shapes', () => {
-  let board
+describe("Some of my own test for other shapes", () => {
+  let board;
   beforeEach(() => {
-    board = new Board(10, 6)
-  })
+    board = new Board(10, 6);
+  });
   // it("middle point should be ")
-  it('Test O shape drop to board', () => {
-    board.drop(Tetromino.O_SHAPE)
+  it("Test O shape drop to board", () => {
+    board.drop(Tetromino.O_SHAPE);
 
     expect(board.toString()).to.equalShape(
       `....OO....
@@ -74,10 +74,10 @@ describe('Some of my own test for other shapes', () => {
        ..........
        ..........
        ..........`
-    )
-  })
-  it('test O shape one tick', () => {
-    board.tick()
+    );
+  });
+  it("test O shape one tick", () => {
+    board.tick();
 
     expect(board.toString()).to.equalShape(
       `..........
@@ -86,18 +86,18 @@ describe('Some of my own test for other shapes', () => {
        ..........
        ..........
        ..........`
-    )
-  })
-})
+    );
+  });
+});
 
-describe('Some of I shape drops', () => {
-  let board
+describe("Some of I shape drops", () => {
+  let board;
   beforeEach(() => {
-    board = new Board(10, 6)
-  })
+    board = new Board(10, 6);
+  });
   // it("middle point should be ")
-  xit('Test O shape drop to board', () => {
-    board.drop(Tetromino.I_SHAPE)
+  xit("Test O shape drop to board", () => {
+    board.drop(Tetromino.I_SHAPE);
 
     expect(board.toString()).to.equalShape(
       `...IIII...
@@ -106,6 +106,6 @@ describe('Some of I shape drops', () => {
        ..........
        ..........
        ..........`
-    )
-  })
-})
+    );
+  });
+});
