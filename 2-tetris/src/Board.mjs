@@ -7,7 +7,7 @@ export class Board {
 
   #falling;
 
-  #fallingBlockRow = 0;
+  #fallingBlockRow;
 
   #fallingBlockCol;
 
@@ -17,7 +17,28 @@ export class Board {
     this.#width = width;
     this.#height = height;
     this.#fallingBlockCol = Math.round(width / 2) - 1;
+
+    this.#resetFallingRowAndCol();
     this.#initStationary(height, width);
+  }
+
+  drop(block) {
+    if (this.hasFalling()) {
+      throw new Error("already falling");
+    }
+    this.#falling = block;
+    this.#resetFallingRowAndCol();
+  }
+
+  tick() {
+    if (this.#hitBottom() || this.#hitFixedBlock()) {
+      this.#stopFalling();
+    }
+    this.#oneTick();
+  }
+
+  #oneTick() {
+    this.#fallingBlockRow += 1;
   }
 
   #initStationary(height, width) {
@@ -26,45 +47,30 @@ export class Board {
       .map(() => Array(width).fill(this.EMPTY));
   }
 
-  drop(block) {
-    if (this.hasFalling()) {
-      throw new Error("already falling");
-    }
-    this.#falling = block;
-    this.#fallingBlockRow = 0;
-    this.#fallingBlockCol = 1;
+  #hitFixedBlock() {
+    return (
+      this.#stationary[this.#fallingBlockRow + 1][this.#fallingBlockCol] !==
+      this.EMPTY
+    );
   }
 
-  tick() {
-    if (this.#fallingBlockRow === this.#height - 1) {
-      this.#stationary[this.#fallingBlockRow][this.#fallingBlockCol] =
-        this.#falling.getColor();
-      this.#falling = undefined;
-    } else if (
-      this.#stationary[this.#fallingBlockRow + 1][this.#fallingBlockCol] ===
-      this.EMPTY
-    ) {
-      this.#fallingBlockRow += 1;
-    } else {
-      this.#stationary[this.#fallingBlockRow][this.#fallingBlockCol] =
-        this.#falling.getColor();
-      this.#falling = undefined;
-    }
+  #hitBottom() {
+    return this.#fallingBlockRow === this.#height - 1;
+  }
+
+  #stopFalling() {
+    this.#stationary[this.#fallingBlockRow][this.#fallingBlockCol] =
+      this.#falling.getColor();
+    this.#falling = undefined;
   }
 
   hasFalling() {
     return this.#falling !== undefined;
   }
 
-  toString() {
-    let blockString = "";
-    for (let row = 0; row < this.#height; row += 1) {
-      for (let col = 0; col < this.#width; col += 1) {
-        blockString += this.#getColorAt(row, col);
-      }
-      blockString += "\n";
-    }
-    return blockString;
+  #resetFallingRowAndCol() {
+    this.#fallingBlockRow = 0;
+    this.#fallingBlockCol = 1;
   }
 
   #hasFallingAt(row, col) {
@@ -79,5 +85,16 @@ export class Board {
     return this.#hasFallingAt(row, col)
       ? this.#falling.getColor()
       : this.#stationary[row][col];
+  }
+
+  toString() {
+    let blockString = "";
+    for (let row = 0; row < this.#height; row += 1) {
+      for (let col = 0; col < this.#width; col += 1) {
+        blockString += this.#getColorAt(row, col);
+      }
+      blockString += "\n";
+    }
+    return blockString;
   }
 }
