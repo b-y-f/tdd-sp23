@@ -29,6 +29,8 @@ export class Board {
       throw new Error("already falling");
     }
     this.falling = block;
+    this.fallingBlockRow = 0;
+    this.fallingBlockCol = 1;
   }
 
   tick() {
@@ -36,8 +38,15 @@ export class Board {
       this.stationary[this.fallingBlockRow][this.fallingBlockCol] =
         this.falling.getColor();
       this.falling = undefined;
-    } else {
+    } else if (
+      this.stationary[this.fallingBlockRow + 1][this.fallingBlockCol] ===
+      this.EMPTY
+    ) {
       this.fallingBlockRow += 1;
+    } else {
+      this.stationary[this.fallingBlockRow][this.fallingBlockCol] =
+        this.falling.getColor();
+      this.falling = undefined;
     }
   }
 
