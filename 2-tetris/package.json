@@ -35,7 +35,7 @@
   },
   "scripts": {
     "test": "mocha --require test/testing.mjs 'test/**/*.test.mjs'",
-    "autotest": "npm run test -- --watch",
+    "autotest": "npm run test -- --watch --inline-diffs",
     "format": "prettier --write ."
   }
 }
