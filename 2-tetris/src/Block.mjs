@@ -1,7 +1,11 @@
 export class Block {
-  color;
+  #color;
 
   constructor(color) {
-    this.color = color;
+    this.#color = color;
+  }
+
+  getColor() {
+    return this.#color;
   }
 }

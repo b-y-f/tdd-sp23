@@ -1,9 +1,11 @@
 export class Board {
+  EMPTY = ".";
+
   width;
 
   height;
 
-  falling = false;
+  falling = undefined;
 
   constructor(width, height) {
     this.width = width;
@@ -11,25 +13,27 @@ export class Board {
   }
 
   drop(block) {
-    this.falling = true;
+    this.falling = block;
   }
 
   hasFalling() {
-    return this.falling;
+    return this.falling !== undefined;
   }
 
   toString() {
-    let s = "";
-    for (let i = 0; i < this.height; i += 1) {
-      for (let j = 0; j < this.width; j += 1) {
-        if (i === 0 && j === 1 && this.hasFalling()) {
-          s += "X";
-        } else {
-          s += ".";
-        }
+    let blockString = "";
+    for (let row = 0; row < this.height; row += 1) {
+      for (let col = 0; col < this.width; col += 1) {
+        blockString += this.hasFallingAt(row, col)
+          ? this.falling.getColor()
+          : this.EMPTY;
       }
-      s += "\n";
+      blockString += "\n";
     }
-    return s;
+    return blockString;
+  }
+
+  hasFallingAt(row, col) {
+    return row === 0 && col === 1 && this.hasFalling();
   }
 }
