@@ -9,6 +9,24 @@ export class RotatingShape {
     this.height = this.#blocks[0].length;
   }
 
+  rotateRight() {
+    const copy = this.#blocks.map((row) => row.slice());
+    const newShapeStr = copy[0]
+      .map((_, index) => copy.map((row) => row[index]).reverse())
+      .map((row) => row.join(""))
+      .join("\n");
+    return new RotatingShape(newShapeStr);
+  }
+
+  rotateLeft() {
+    const copy = this.#blocks.map((row) => row.slice());
+    const newShapeStr = copy[0]
+      .map((_, index) => copy.map((row) => row[row.length - 1 - index]))
+      .map((row) => row.join(""))
+      .join("\n");
+    return new RotatingShape(newShapeStr);
+  }
+
   toString() {
     return `${this.#blocks.map((row) => row.join("")).join("\n")}\n`;
   }
