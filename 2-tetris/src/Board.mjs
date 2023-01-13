@@ -5,7 +5,7 @@ export class Board {
 
   height;
 
-  falling = undefined;
+  falling;
 
   fallingBlockRow = 0;
 
@@ -14,6 +14,11 @@ export class Board {
   constructor(width, height) {
     this.width = width;
     this.height = height;
+    this.fallingBlockCol = Math.round(width / 2) - 1;
+    this.initStationary(height, width);
+  }
+
+  initStationary(height, width) {
     this.stationary = Array(height)
       .fill(this.EMPTY)
       .map(() => Array(width).fill(this.EMPTY));
@@ -28,7 +33,8 @@ export class Board {
 
   tick() {
     if (this.fallingBlockRow === this.height - 1) {
-      this.stationary[this.fallingBlockRow][1] = this.falling.getColor();
+      this.stationary[this.fallingBlockRow][this.fallingBlockCol] =
+        this.falling.getColor();
       this.falling = undefined;
     } else {
       this.fallingBlockRow += 1;
@@ -51,7 +57,11 @@ export class Board {
   }
 
   hasFallingAt(row, col) {
-    return row === this.fallingBlockRow && col === 1 && this.hasFalling();
+    return (
+      row === this.fallingBlockRow &&
+      col === this.fallingBlockCol &&
+      this.hasFalling()
+    );
   }
 
   getColorAt(row, col) {
