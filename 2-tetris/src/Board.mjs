@@ -7,6 +7,8 @@ export class Board {
 
   falling = undefined;
 
+  fallingBlockRow = 0;
+
   constructor(width, height) {
     this.width = width;
     this.height = height;
@@ -14,6 +16,10 @@ export class Board {
 
   drop(block) {
     this.falling = block;
+  }
+
+  tick() {
+    this.fallingBlockRow += 1;
   }
 
   hasFalling() {
@@ -34,6 +40,6 @@ export class Board {
   }
 
   hasFallingAt(row, col) {
-    return row === 0 && col === 1 && this.hasFalling();
+    return row === this.fallingBlockRow && col === 1 && this.hasFalling();
   }
 }
