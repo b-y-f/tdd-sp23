@@ -11,9 +11,8 @@ const millisPerDay = 24 * 60 * 60 * 1000;
 //   return Math.floor(diffMillis / millisPerDay);
 // }
 
-
 // looks like this function can only give days unit xmas for 2023 year.
-export function daysUntilChristmas(now=new Date()) {
+export function daysUntilChristmas(now = new Date()) {
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   const christmasDay = new Date(now.getFullYear(), 12 - 1, 25);
   if (today.getTime() > christmasDay.getTime()) {
