@@ -1,16 +1,11 @@
 import { RotatingShape } from "./RotatingShape.mjs";
 
 export class Tetromino extends RotatingShape {
-  static T_SHAPE = new Tetromino(".T.\nTTT\n...", 4, 0, undefined);
+  static T_SHAPE = new Tetromino(".T.\nTTT\n...", 4);
 
-  static I_SHAPE = new Tetromino(
-    ".....\n.....\nIIII.\n.....\n.....",
-    2,
-    0,
-    undefined
-  );
+  static I_SHAPE = new Tetromino(".....\n.....\nIIII.\n.....\n.....", 2);
 
-  static O_SHAPE = new Tetromino(".OO\n.OO\n...", 1, 0, undefined);
+  static O_SHAPE = new Tetromino(".OO\n.OO\n...", 1);
 
   #allRotations;
 
@@ -20,25 +15,52 @@ export class Tetromino extends RotatingShape {
 
   #currRotation;
 
-  constructor(shapeString, numDistinctShape, currRotation, allRotations) {
+  constructor(
+    shapeString,
+    numDistinctShape,
+    currRotation = 0,
+    allRotations = undefined
+  ) {
     super(shapeString);
     this.#shapeString = shapeString;
     this.#distinctShape = numDistinctShape;
     this.#currRotation = currRotation;
 
-    if (allRotations === undefined) {
-      this.#allRotations = new Array(numDistinctShape);
-      let rotation = new RotatingShape(shapeString);
-      for (let i = 0; i < numDistinctShape; i += 1) {
-        this.#allRotations[i] = rotation;
-        rotation = rotation.rotateRight();
-      }
+    this.#decideConstructor(
+      allRotations,
+      numDistinctShape,
+      shapeString,
+      currRotation
+    );
+  }
 
-      this.#currRotation = 0;
+  #decideConstructor(
+    allRotations,
+    numDistinctShape,
+    shapeString,
+    currRotation
+  ) {
+    const defaultConstructor = allRotations === undefined;
+    if (defaultConstructor) {
+      this.#initRotationShapes(numDistinctShape, shapeString);
     } else {
-      this.#currRotation = (currRotation + numDistinctShape) % numDistinctShape;
-      this.#allRotations = allRotations;
+      this.#updateRotationNumber(currRotation, numDistinctShape, allRotations);
     }
+  }
+
+  #updateRotationNumber(currRotation, numDistinctShape, allRotations) {
+    this.#currRotation = (currRotation + numDistinctShape) % numDistinctShape;
+    this.#allRotations = allRotations;
+  }
+
+  #initRotationShapes(numDistinctShape, shapeString) {
+    this.#allRotations = new Array(numDistinctShape);
+    let rotation = new RotatingShape(shapeString);
+    for (let i = 0; i < numDistinctShape; i += 1) {
+      this.#allRotations[i] = rotation;
+      rotation = rotation.rotateRight();
+    }
+    this.#currRotation = 0;
   }
 
   rotateRight() {
