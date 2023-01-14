@@ -21,26 +21,8 @@ describe("Untestable 4: enterprise application", () => {
     service = new PasswordService();
     users = PostgresUserDao.getInstance();
 
-    await users.db.query(`DROP TABLE IF EXISTS users;`)
-    await users.db.query(
-      `CREATE TABLE IF NOT EXISTS users (
-        user_id varchar(45) NOT NULL,
-        password_hash varchar(450) NOT NULL,
-        PRIMARY KEY (user_id)
-      );`
-    );
-    const user1 = {
-      'userId': '123',
-      'passwordHash': argon2.hashSync('old')
-
-    }
-    const user2 = {
-      'userId': '321',
-      'passwordHash': argon2.hashSync('passwd')
-
-    }
-    await users.save(user1);
-    await users.save(user2)
+    await createNewTable(users);
+    await createMockUsers(users);
 
   });
 
@@ -56,9 +38,37 @@ describe("Untestable 4: enterprise application", () => {
   it("Failed to change password", async () => {
     const fail = service.changePassword("123", "wrong-old", "new");
     expect(fail).to.be.rejectedWith("wrong old password")
+  })
 
+  it("Test User2 change password", async () => {
+    const fail = service.changePassword("321", "pass", "yiyi");
+    expect(fail).to.be.rejectedWith("wrong old password")
   })
 });
+
+async function createNewTable(users) {
+  await users.db.query(`DROP TABLE IF EXISTS users;`);
+  await users.db.query(
+    `CREATE TABLE IF NOT EXISTS users (
+        user_id varchar(45) NOT NULL,
+        password_hash varchar(450) NOT NULL,
+        PRIMARY KEY (user_id)
+      );`
+  );
+}
+
+async function createMockUsers(users) {
+  const user1 = {
+    'userId': '123',
+    'passwordHash': argon2.hashSync('old')
+  };
+  const user2 = {
+    'userId': '321',
+    'passwordHash': argon2.hashSync('passwd')
+  };
+  await users.save(user1);
+  await users.save(user2);
+}
 
 function initParameters() {
   process.env.PGUSER = "untestable";
