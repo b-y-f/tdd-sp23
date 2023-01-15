@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { Item, Shop } from "../src/gilded_rose.mjs";
-import { verifyAsJSON } from "approvals";
+import { verify } from "approvals";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 
@@ -15,10 +15,20 @@ const __dirname = dirname(__filename);
  * the end, we will have a good shape of the code. Then we can
  * write some test for the new features, and do the red, green
  * light testing.
+ *
+ * Added approval test in middle, find this way much faster to iterate all
+ * the seanarios and easier to pass mutation test.
+ * It uses `diff` command to compare to files. If after mutation,
+ * the "receive" is different with "approved" its ok, if still same,
+ * we got problem and that need to be catched with test.
+ * But I found approval test and mutation test package not compatible very
+ * well. Always got some "runtimeError".
+ *
  */
+
 describe("Gilded Rose", () => {
   it("Hello world test!", () => {
-    expect(updateTest("foo", 10, 0)).to.equal("foo 9 0");
+    expect(updateTest("foo", 10, 0)).to.equal("foo, 9, 0");
   });
 
   it("Test for empty items", () => {
@@ -30,14 +40,14 @@ describe("Gilded Rose", () => {
 
 describe("Approval Tests", () => {
   const names = ["foo", "Aged Brie", "Backstage passes to a TAFKAL80ETC concert", "Sulfuras, Hand of Ragnaros"];
-  const sellIns = [0, 1, -1];
+  const sellIns = [0, 1, -1, 11, 6];
   const qualities = [0, 50, 48];
   const paraCombs = cartesian(names, sellIns, qualities);
 
-  const testResults = paraCombs.map(
-    ([name, sellIn, quality]) => `[${name}, ${sellIn}, ${quality}] => ${updateTest(name, sellIn, quality)}`
-  );
-  verifyAsJSON(__dirname, "Combination.Test", testResults);
+  const testResults = paraCombs
+    .map(([name, sellIn, quality]) => `[${name}, ${sellIn}, ${quality}] => ${updateTest(name, sellIn, quality)}\n`)
+    .join("");
+  verify(__dirname, "Combination.Test", testResults);
 });
 
 function updateTest(name, sellIn, quality) {
