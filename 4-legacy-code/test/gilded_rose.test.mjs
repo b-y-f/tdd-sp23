@@ -2,7 +2,8 @@ import { expect } from "chai";
 import { Item, Shop } from "../src/gilded_rose.mjs";
 import { verify } from "approvals";
 import { fileURLToPath } from "url";
-import { dirname } from "path";
+import { dirname, join as pathJoin } from "path";
+import { readFileSync } from "fs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -17,10 +18,10 @@ const __dirname = dirname(__filename);
  * light testing.
  *
  * Added approval test in middle, find this way much faster to iterate all
- * the seanarios and easier to pass mutation test.
- * It uses `diff` command to compare to files. If after mutation,
- * the "receive" is different with "approved" its ok, if still same,
- * we got problem and that need to be catched with test.
+ * the scenarios and easier to pass mutation test.
+ * It uses something similiar to `diff` command to compare to files.
+ * If after mutation, the "receive" is different with "approved" its ok,
+ * if still same, we got problem and that need to be catched with test.
  * But I found approval test and mutation test package not compatible very
  * well. Always got some "runtimeError".
  *
@@ -28,7 +29,7 @@ const __dirname = dirname(__filename);
 
 describe("Gilded Rose", () => {
   it("Hello world test!", () => {
-    expect(updateTest("foo", 10, 0)).to.equal("foo, 9, 0");
+    expect(updateTest("foo", 10, 0)).to.equal("foo | 9 | 0");
   });
 
   it("Test for empty items", () => {
@@ -38,17 +39,49 @@ describe("Gilded Rose", () => {
   });
 });
 
-describe("Approval Tests", () => {
-  const names = ["foo", "Aged Brie", "Backstage passes to a TAFKAL80ETC concert", "Sulfuras, Hand of Ragnaros"];
-  const sellIns = [0, 1, -1, 11, 6];
-  const qualities = [0, 50, 48];
-  const paraCombs = cartesian(names, sellIns, qualities);
+const names = ["foo", "Aged Brie", "Backstage passes to a TAFKAL80ETC concert", "Sulfuras, Hand of Ragnaros"];
+const sellIns = [0, 1, -1, 11, 6];
+const qualities = [0, 50, 48];
+const paraCombs = cartesian(names, sellIns, qualities);
 
-  const testResults = paraCombs
-    .map(([name, sellIn, quality]) => `[${name}, ${sellIn}, ${quality}] => ${updateTest(name, sellIn, quality)}\n`)
-    .join("");
-  verify(__dirname, "Combination.Test", testResults);
+// describe("Approval Tests", () => {
+//   const testResults = paraCombs
+//     .map(([name, sellIn, quality]) => `${name} | ${sellIn} | ${quality} => ${updateTest(name, sellIn, quality)}\n`)
+//     .join("");
+//   verify(__dirname, "Combination.Test", testResults);
+// });
+
+describe("Batch Test without approval, I'm lazy...", () => {
+  const { answers, questions } = loadTestFromFile();
+
+  for (let i = 0; i < answers.length - 1; i++) {
+    const { name, sellIn, quality } = parseToGetParameter(questions[i]);
+    it(`Input name:${name}, sellIn: ${sellIn}, quality: ${quality}`, () => {
+      expect(updateTest(name, sellIn, quality).replace(/\s/g, "")).to.equal(answers[i].replace(/\s/g, ""));
+    });
+  }
 });
+
+function loadTestFromFile() {
+  const lastTest = readFileSync(pathJoin(__dirname, "Combination.Test.approved.txt"));
+  const testCases = lastTest.toString().split("\n");
+  const answers = [];
+  const questions = [];
+  for (const s of testCases) {
+    const [input, output] = s.split(" => ");
+    questions.push(input);
+    answers.push(output);
+  }
+  return { answers, questions };
+}
+
+function parseToGetParameter(questionString) {
+  let [name, sellIn, quality] = questionString.split("|");
+  name = name.trim();
+  sellIn = parseInt(sellIn);
+  quality = parseInt(quality);
+  return { name, sellIn, quality };
+}
 
 function updateTest(name, sellIn, quality) {
   const gildedRose = new Shop([new Item(name, sellIn, quality)]);
