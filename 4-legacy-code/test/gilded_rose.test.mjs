@@ -10,9 +10,9 @@ import { Item, Shop } from "../src/gilded_rose.mjs";
  * light testing.
  */
 describe("Gilded Rose", () => {
-  it("should foo", () => {
-    const gildedRose = new Shop([new Item("foo", 0, 0)]);
+  it("Hello world test!", () => {
+    const gildedRose = new Shop([new Item("foo", 10, 0)]);
     const items = gildedRose.updateQuality();
-    expect(items[0].name).to.equal("foo");
+    expect(items[0].toString()).to.equal("foo 9 0");
   });
 });
