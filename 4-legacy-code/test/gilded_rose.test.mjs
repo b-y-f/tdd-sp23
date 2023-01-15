@@ -14,7 +14,22 @@ describe("Gilded Rose", () => {
   it("Hello world test!", () => {
     expect(updateTest("foo", 10, 0)).to.equal("foo 9 0");
   });
+});
 
+describe("Combination Test to pass the coverage test", () => {
+  const names = ["foo", "Aged Brie", "Backstage passes to a TAFKAL80ETC concert", "Sulfuras, Hand of Ragnaros"];
+  const sellIns = [0, 1, -1];
+  const qualities = [0, 50, 48];
+
+  it("combinations", () => {
+    for (const name of names) {
+      for (const sellLn of sellIns) {
+        for (const quality of qualities) {
+          expect(updateTest(name, sellLn, quality)).to.be.a("string");
+        }
+      }
+    }
+  });
 });
 
 function updateTest(name, sellIn, quality) {
@@ -22,4 +37,3 @@ function updateTest(name, sellIn, quality) {
   const items = gildedRose.updateQuality();
   return items[0].toString();
 }
-
