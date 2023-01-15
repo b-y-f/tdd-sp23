@@ -41,7 +41,7 @@ describe("Gilded Rose", () => {
 
 const names = ["foo", "Aged Brie", "Backstage passes to a TAFKAL80ETC concert", "Sulfuras, Hand of Ragnaros"];
 const sellIns = [0, 1, -1, 11, 6];
-const qualities = [0, 50, 48];
+const qualities = [0, 50, 49];
 const paraCombs = cartesian(names, sellIns, qualities);
 
 // describe("Approval Tests", () => {
