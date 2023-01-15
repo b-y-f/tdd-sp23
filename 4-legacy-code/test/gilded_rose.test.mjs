@@ -14,6 +14,12 @@ describe("Gilded Rose", () => {
   it("Hello world test!", () => {
     expect(updateTest("foo", 10, 0)).to.equal("foo 9 0");
   });
+
+  it("Test for empty items", () => {
+    const empty = new Shop();
+    const items = empty.updateQuality();
+    expect(items.toString()).to.be.empty;
+  });
 });
 
 describe("Combination Test to pass the coverage test", () => {
