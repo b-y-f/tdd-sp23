@@ -85,7 +85,7 @@ function parseToGetParameter(questionString) {
 }
 
 function updateTest(name, sellIn, quality) {
-  const gildedRose = new Shop([new Item(name, sellIn, quality)]);
+  const gildedRose = new Shop([Item.createItem(name, sellIn, quality)]);
   const items = gildedRose.updateQuality();
   return items[0].toString();
 }

@@ -5,6 +5,19 @@ export class Item {
     this.quality = quality;
   }
 
+  static createItem(name, sellIn, quality) {
+    switch (name) {
+      case "Aged Brie":
+        return new AgedBrie(sellIn, quality);
+      case "Backstage passes to a TAFKAL80ETC concert":
+        return new BackstagePass(sellIn, quality);
+      case "Sulfuras, Hand of Ragnaros":
+        return new Sulfuras(sellIn, quality);
+      default:
+        return new Item(name, sellIn, quality);
+    }
+  }
+
   toString() {
     return `${this.name} | ${this.sellIn} | ${this.quality}`;
   }
