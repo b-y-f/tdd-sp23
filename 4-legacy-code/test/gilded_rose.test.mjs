@@ -63,6 +63,20 @@ describe("Batch Test without approval, I'm lazy...", () => {
   }
 });
 
+describe("Test New item Conjured", () => {
+  it("normal sellIn and quality", () => {
+    expect(updateTest("Conjured", 50, 40).toString()).to.equal("Conjured | 49 | 38");
+  });
+
+  it("Quality over 50", () => {
+    expect(updateTest("Conjured", 60, 40).toString()).to.equal("Conjured | 49 | 38");
+  });
+
+  it("Weird stuff", () => {
+    expect(updateTest("Conjured", 0, 1).toString()).to.equal("Conjured | -1 | 0");
+  });
+});
+
 function loadTestFromFile() {
   const lastTest = readFileSync(pathJoin(__dirname, "Combination.Test.approved.txt"));
   const testCases = lastTest.toString().split("\n");
