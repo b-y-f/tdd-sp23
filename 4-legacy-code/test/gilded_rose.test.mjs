@@ -40,7 +40,13 @@ describe("Gilded Rose", () => {
   });
 });
 
-const names = ["foo", "Aged Brie", "Backstage passes to a TAFKAL80ETC concert", "Sulfuras, Hand of Ragnaros"];
+const names = [
+  "foo",
+  "Aged Brie",
+  "Backstage passes to a TAFKAL80ETC concert",
+  "Sulfuras, Hand of Ragnaros",
+  "Conjured",
+];
 const sellIns = [0, 1, -1, 11, 6];
 const qualities = [0, 50, 49];
 const paraCombs = cartesian(names, sellIns, qualities);
@@ -64,16 +70,36 @@ describe("Batch Test without approval, I'm lazy...", () => {
 });
 
 describe("Test New item Conjured", () => {
-  it("normal sellIn and quality", () => {
+  it("normal sellIn:50 and quality:40", () => {
     expect(updateTest("Conjured", 50, 40).toString()).to.equal("Conjured | 49 | 38");
   });
 
-  it("Quality over 50", () => {
+  it("SellIn over 50", () => {
     expect(updateTest("Conjured", 60, 40).toString()).to.equal("Conjured | 59 | 38");
   });
 
   it("Weird stuff", () => {
     expect(updateTest("Conjured", 0, 1).toString()).to.equal("Conjured | -1 | 0");
+  });
+
+  it("Quality < 0", () => {
+    expect(updateTest("Conjured", 50, -10).toString()).to.equal("Conjured | 49 | 0");
+  });
+
+  it("Quality equal 0", () => {
+    expect(updateTest("Conjured", 50, 0).toString()).to.equal("Conjured | 49 | 0");
+  });
+
+  it("When pass the expire data double drop", () => {
+    expect(updateTest("Conjured", -1, 50).toString()).to.equal("Conjured | -2 | 46");
+  });
+
+  it("When pass the expire data double drop", () => {
+    expect(updateTest("Conjured", 1, 1).toString()).to.equal("Conjured | 0 | 0");
+  });
+
+  it("When pass the expire data double drop", () => {
+    expect(updateTest("Conjured", -1, 1).toString()).to.equal("Conjured | -2 | 0");
   });
 });
 
