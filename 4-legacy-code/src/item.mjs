@@ -114,19 +114,20 @@ export class Conjured extends Item {
     super("Conjured", sellIn, quality);
   }
   updateItem() {
-    if (this.posQuality()) {
-      this.decQuality();
-      this.decQuality();
-      if (this.quality < 0) {
-        this.quality = 0;
-      }
-    }
-
-    this.decSellIn();
     if (this.negSellIn()) {
-      if (this.posQuality()) {
-        this.decQuality();
-      }
+      this.doubleDecQuality();
+      this.doubleDecQuality();
+    } else {
+      this.doubleDecQuality();
     }
+    if (this.quality < 0) {
+      this.resetQuality();
+    }
+    this.decSellIn();
+  }
+
+  doubleDecQuality() {
+    this.decQuality();
+    this.decQuality();
   }
 }
