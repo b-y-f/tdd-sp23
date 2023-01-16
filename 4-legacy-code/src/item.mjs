@@ -101,6 +101,13 @@ export class BackstagePass extends Item {
 }
 
 export class Sulfuras extends Item {
+  constructor(sellIn) {
+    super("Sulfuras, Hand of Ragnaros", sellIn, 80);
+  }
+  updateItem() {}
+}
+
+export class Conjured extends Item {
   constructor(sellIn, quality) {
     super("Sulfuras, Hand of Ragnaros", sellIn, quality);
   }
