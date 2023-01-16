@@ -1,5 +1,6 @@
 import { expect } from "chai";
-import { Item, Shop } from "../src/gilded_rose.mjs";
+import { Shop } from "../src/gilded_rose.mjs";
+import { Item } from "../src/item.mjs";
 import { verify } from "approvals";
 import { fileURLToPath } from "url";
 import { dirname, join as pathJoin } from "path";
