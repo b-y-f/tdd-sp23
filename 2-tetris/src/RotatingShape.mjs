@@ -32,6 +32,10 @@ export class RotatingShape {
     return new RotatingShape(newShapeStr);
   }
 
+  getColor() {
+    return this.#blocks;
+  }
+
   #cloneBlocks() {
     return this.#blocks.map((row) => row.slice());
   }
