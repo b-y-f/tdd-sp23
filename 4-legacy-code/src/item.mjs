@@ -12,7 +12,9 @@ export class Item {
       case "Backstage passes to a TAFKAL80ETC concert":
         return new BackstagePass(sellIn, quality);
       case "Sulfuras, Hand of Ragnaros":
-        return new Sulfuras(sellIn, quality);
+        return new Sulfuras(sellIn);
+      case "Conjured":
+        return new Conjured(sellIn, quality);
       default:
         return new Item(name, sellIn, quality);
     }
@@ -109,7 +111,22 @@ export class Sulfuras extends Item {
 
 export class Conjured extends Item {
   constructor(sellIn, quality) {
-    super("Sulfuras, Hand of Ragnaros", sellIn, quality);
+    super("Conjured", sellIn, quality);
   }
-  updateItem() {}
+  updateItem() {
+    if (this.posQuality()) {
+      this.decQuality();
+      this.decQuality();
+      if (this.quality < 0) {
+        this.quality = 0;
+      }
+    }
+
+    this.decSellIn();
+    if (this.negSellIn()) {
+      if (this.posQuality()) {
+        this.decQuality();
+      }
+    }
+  }
 }

@@ -69,7 +69,7 @@ describe("Test New item Conjured", () => {
   });
 
   it("Quality over 50", () => {
-    expect(updateTest("Conjured", 60, 40).toString()).to.equal("Conjured | 49 | 38");
+    expect(updateTest("Conjured", 60, 40).toString()).to.equal("Conjured | 59 | 38");
   });
 
   it("Weird stuff", () => {
