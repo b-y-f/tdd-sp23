@@ -75,6 +75,10 @@ export class Board {
     if (!this.hasFalling()) {
       return false;
     }
+    return this.#isInBoundry(row, col);
+  }
+
+  #isInBoundry(row, col) {
     return (
       row >= this.#falling.rowAtBoard &&
       row < this.#falling.rowAtBoard + this.#falling.item.getHeight() &&
