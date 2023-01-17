@@ -70,10 +70,14 @@ export class Board {
   }
 
   #hasFallingAt(row, col) {
+    if (!this.hasFalling()) {
+      return false;
+    }
     return (
-      row === this.#falling.row &&
-      col === this.#falling.col &&
-      this.hasFalling()
+      row >= this.#falling.row &&
+      row < this.#falling.row + this.#falling.item.getHeight() &&
+      col >= this.#falling.col &&
+      col < this.#falling.col + this.#falling.item.getWidth()
     );
   }
 

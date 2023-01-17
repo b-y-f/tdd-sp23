@@ -1,11 +1,23 @@
 export class RotatingShape {
   #blocks;
 
+  #width;
+
+  #height;
+
   constructor(blockString) {
     this.#initBlocks(blockString);
     this.width = this.#blocks.length;
     this.height = this.#blocks[0].length;
     Object.freeze(this);
+  }
+
+  getWidth() {
+    return this.#width;
+  }
+
+  getHeight() {
+    return this.#height;
   }
 
   #initBlocks(blockString) {
