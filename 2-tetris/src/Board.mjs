@@ -7,17 +7,14 @@ export class Board {
 
   #falling;
 
-  #fallingBlockRow;
-
-  #fallingBlockCol;
-
   #stationary;
 
   constructor(width, height) {
     this.#width = width;
     this.#height = height;
-    this.#fallingBlockCol = Math.round(width / 2) - 1;
-
+    this.#falling = {
+      item: undefined,
+    };
     this.#resetFallingRowAndCol();
     this.#initStationary(height, width);
   }
@@ -26,7 +23,7 @@ export class Board {
     if (this.hasFalling()) {
       throw new Error("already falling");
     }
-    this.#falling = block;
+    this.#falling.item = block;
     this.#resetFallingRowAndCol();
   }
 
@@ -38,7 +35,7 @@ export class Board {
   }
 
   #oneTick() {
-    this.#fallingBlockRow += 1;
+    this.#falling.row += 1;
   }
 
   #initStationary(height, width) {
@@ -49,42 +46,42 @@ export class Board {
 
   #hitFixedBlock() {
     return (
-      this.#stationary[this.#fallingBlockRow + 1][this.#fallingBlockCol] !==
-      this.EMPTY
+      this.#stationary[this.#falling.row + 1][this.#falling.col] !== this.EMPTY
     );
   }
 
   #hitBottom() {
-    return this.#fallingBlockRow === this.#height - 1;
+    return this.#falling.row === this.#height - 1;
   }
 
   #stopFalling() {
-    this.#stationary[this.#fallingBlockRow][this.#fallingBlockCol] =
-      this.#falling.getColor();
-    this.#falling = undefined;
+    this.#stationary[this.#falling.row][this.#falling.col] =
+      this.#falling.item.getColor();
+    this.#falling.item = undefined;
   }
 
   hasFalling() {
-    return this.#falling !== undefined;
+    return this.#falling.item !== undefined;
   }
 
   #resetFallingRowAndCol() {
-    this.#fallingBlockRow = 0;
-    this.#fallingBlockCol = 1;
+    this.#falling.col = Math.round(this.#width / 2) - 1;
+    this.#falling.row = 0;
   }
 
   #hasFallingAt(row, col) {
     return (
-      row === this.#fallingBlockRow &&
-      col === this.#fallingBlockCol &&
+      row === this.#falling.row &&
+      col === this.#falling.col &&
       this.hasFalling()
     );
   }
 
   #getColorAt(row, col) {
-    return this.#hasFallingAt(row, col)
-      ? this.#falling.getColor()
-      : this.#stationary[row][col];
+    if (this.#hasFallingAt(row, col)) {
+      return this.#falling.item.getColor();
+    }
+    return this.#stationary[row][col];
   }
 
   toString() {
