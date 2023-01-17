@@ -35,7 +35,7 @@ export class Board {
   }
 
   #oneTick() {
-    this.#falling.row += 1;
+    this.#falling.rowAtBoard += 1;
   }
 
   #initStationary(height, width) {
@@ -46,16 +46,18 @@ export class Board {
 
   #hitFixedBlock() {
     return (
-      this.#stationary[this.#falling.row + 1][this.#falling.col] !== this.EMPTY
+      this.#stationary[this.#falling.rowAtBoard + 1][
+        this.#falling.colAtBoard
+      ] !== this.EMPTY
     );
   }
 
   #hitBottom() {
-    return this.#falling.row === this.#height - 1;
+    return this.#falling.rowAtBoard === this.#height - 1;
   }
 
   #stopFalling() {
-    this.#stationary[this.#falling.row][this.#falling.col] =
+    this.#stationary[this.#falling.rowAtBoard][this.#falling.colAtBoard] =
       this.#falling.item.getColor();
     this.#falling.item = undefined;
   }
@@ -65,8 +67,8 @@ export class Board {
   }
 
   #resetFallingRowAndCol() {
-    this.#falling.col = Math.round(this.#width / 2) - 1;
-    this.#falling.row = 0;
+    this.#falling.colAtBoard = Math.round(this.#width / 2) - 1;
+    this.#falling.rowAtBoard = 0;
   }
 
   #hasFallingAt(row, col) {
@@ -74,10 +76,10 @@ export class Board {
       return false;
     }
     return (
-      row >= this.#falling.row &&
-      row < this.#falling.row + this.#falling.item.getHeight() &&
-      col >= this.#falling.col &&
-      col < this.#falling.col + this.#falling.item.getWidth()
+      row >= this.#falling.rowAtBoard &&
+      row < this.#falling.rowAtBoard + this.#falling.item.getHeight() &&
+      col >= this.#falling.colAtBoard &&
+      col < this.#falling.colAtBoard + this.#falling.item.getWidth()
     );
   }
 
