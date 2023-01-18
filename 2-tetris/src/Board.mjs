@@ -30,11 +30,10 @@ export class Board {
   }
 
   tick() {
-    if (this.#hitBottom() || this.#hitFixedBlock()) {
-      if (this.#falling.item) {
+    if (this.#falling.item) {
+      if (this.#hitBottom() || this.#hitFixedBlock()) {
         this.#stopFalling();
       }
-    } else {
       this.#oneTick();
     }
   }
@@ -52,10 +51,21 @@ export class Board {
   }
 
   #hitFixedBlock() {
+    for (let row = 0; row < this.#falling.item.getHeight(); row += 1) {
+      for (let col = 0; col < this.#falling.item.getWidth(); col += 1) {
+        const cell = this.#falling.item.colorAt(row, col);
+        if (cell !== this.EMPTY) {
+          const boardRow = this.#falling.rowAtBoard + row;
+          const boardCol = this.#falling.colAtBoard + col;
+          if (this.#stationary[boardRow + 1][boardCol] !== this.EMPTY) {
+            return true;
+          }
+        }
+      }
+    }
     return (
-      this.#stationary[this.#falling.rowAtBoard + 1][
-        this.#falling.colAtBoard
-      ] !== this.EMPTY
+      this.#stationary[this.#falling.rowAtBoard][this.#falling.colAtBoard] !==
+      this.EMPTY
     );
   }
 
@@ -79,13 +89,11 @@ export class Board {
   #stopFalling() {
     for (let row = 0; row < this.#falling.item.getHeight(); row += 1) {
       for (let col = 0; col < this.#falling.item.getWidth(); col += 1) {
+        const cell = this.#falling.item.colorAt(row, col);
         const boardRow = this.#falling.rowAtBoard + row;
         const boardCol = this.#falling.colAtBoard + col;
-        if (boardRow < this.#height) {
-          this.#stationary[boardRow][boardCol] = this.#falling.item.colorAt(
-            row,
-            col
-          );
+        if (cell !== this.EMPTY && boardRow < this.#height) {
+          this.#stationary[boardRow][boardCol] = cell;
         }
       }
     }
