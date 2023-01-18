@@ -44,8 +44,8 @@ export class RotatingShape {
     return new RotatingShape(newShapeStr);
   }
 
-  getColor() {
-    return this.#blocks;
+  colorAt(row, col) {
+    return this.#blocks[row][col];
   }
 
   #cloneBlocks() {

@@ -11,7 +11,7 @@ export class Block {
     this.#height = 1;
   }
 
-  getColor() {
+  colorAt(row, col) {
     return this.#color;
   }
 

@@ -30,8 +30,9 @@ export class Board {
   tick() {
     if (this.#hitBottom() || this.#hitFixedBlock()) {
       this.#stopFalling();
+    } else {
+      this.#oneTick();
     }
-    this.#oneTick();
   }
 
   #oneTick() {
@@ -58,7 +59,7 @@ export class Board {
 
   #stopFalling() {
     this.#stationary[this.#falling.rowAtBoard][this.#falling.colAtBoard] =
-      this.#falling.item.getColor();
+      this.#falling.item.colorAt(0, 0);
     this.#falling.item = undefined;
   }
 
@@ -71,34 +72,37 @@ export class Board {
     this.#falling.rowAtBoard = 0;
   }
 
-  #hasFallingAt(row, col) {
-    if (!this.hasFalling()) {
-      return false;
+  #fallingAt(row, col) {
+    const fallingRow = row - this.#falling.rowAtBoard;
+    const fallingCow = col - this.#falling.colAtBoard;
+    if (this.hasFalling() && this.#isInBoundry(fallingRow, fallingCow)) {
+      return this.#falling.item.colorAt(fallingRow, fallingCow);
     }
-    return this.#isInBoundry(row, col);
+    return this.EMPTY;
+  }
+
+  #colorAt(row, col) {
+    const color = this.#fallingAt(row, col);
+    if (color !== this.EMPTY) {
+      return color;
+    }
+    return this.#stationary[row][col];
   }
 
   #isInBoundry(row, col) {
     return (
-      row >= this.#falling.rowAtBoard &&
-      row < this.#falling.rowAtBoard + this.#falling.item.getHeight() &&
-      col >= this.#falling.colAtBoard &&
-      col < this.#falling.colAtBoard + this.#falling.item.getWidth()
+      row >= 0 &&
+      row < this.#falling.item.getHeight() &&
+      col >= 0 &&
+      col < this.#falling.item.getWidth()
     );
-  }
-
-  #getColorAt(row, col) {
-    if (this.#hasFallingAt(row, col)) {
-      return this.#falling.item.getColor();
-    }
-    return this.#stationary[row][col];
   }
 
   toString() {
     let blockString = "";
     for (let row = 0; row < this.#height; row += 1) {
       for (let col = 0; col < this.#width; col += 1) {
-        blockString += this.#getColorAt(row, col);
+        blockString += this.#colorAt(row, col);
       }
       blockString += "\n";
     }
