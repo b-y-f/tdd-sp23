@@ -68,7 +68,9 @@ export class Board {
   }
 
   #resetFallingRowAndCol() {
-    this.#falling.colAtBoard = Math.round(this.#width / 2) - 1;
+    this.#falling.colAtBoard =
+      Math.round(this.#width / 2) -
+      Math.round(this.#falling.item ? this.#falling.item.getWidth() / 2 : 0);
     this.#falling.rowAtBoard = 0;
   }
 

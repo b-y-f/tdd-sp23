@@ -7,8 +7,8 @@ export class RotatingShape {
 
   constructor(blockString) {
     this.#initBlocks(blockString);
-    this.width = this.#blocks.length;
-    this.height = this.#blocks[0].length;
+    this.#width = this.#blocks.length;
+    this.#height = this.#blocks[0].length;
     Object.freeze(this);
   }
 
