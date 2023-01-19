@@ -38,6 +38,10 @@ export class Board {
     }
   }
 
+  moveLeft() {
+    this.#falling.colAtBoard -= 1;
+  }
+
   #oneTick() {
     this.#falling.rowAtBoard += 1;
   }
