@@ -42,6 +42,10 @@ export class Board {
     this.#falling.colAtBoard -= 1;
   }
 
+  moveRight() {
+    this.#falling.colAtBoard += 1;
+  }
+
   #oneTick() {
     this.#falling.rowAtBoard += 1;
   }
