@@ -22,7 +22,17 @@ describe("Test within range", () => {
        ..........`
     );
   });
-  it("a falling tetromino can be moved right", () => {});
+  it("a falling tetromino can be moved right", () => {
+    board.moveRight();
+    expect(board.toString()).to.equalShape(
+      `.....SS...
+       ....SS....
+       ..........
+       ..........
+       ..........
+       ..........`
+    );
+  });
   it("a falling tetromino can be moved down", () => {});
 });
 
