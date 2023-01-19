@@ -33,7 +33,17 @@ describe("Test within range", () => {
        ..........`
     );
   });
-  it("a falling tetromino can be moved down", () => {});
+  it("a falling tetromino can be moved down", () => {
+    board.moveDown();
+    expect(board.toString()).to.equalShape(
+      `..........
+       ....SS....
+       ...SS.....
+       ..........
+       ..........
+       ..........`
+    );
+  });
 });
 
 describe("Edge cases: board", () => {
