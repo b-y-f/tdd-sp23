@@ -39,9 +39,7 @@ export class Board {
   }
 
   #oneTick() {
-    if (this.#falling) {
-      this.#falling.rowAtBoard += 1;
-    }
+    this.#falling.rowAtBoard += 1;
   }
 
   #initStationary(height, width) {
@@ -70,10 +68,6 @@ export class Board {
   }
 
   #hitBottom() {
-    if (!this.hasFalling()) {
-      return false;
-    }
-
     for (let row = 0; row < this.#falling.item.getHeight(); row += 1) {
       for (let col = 0; col < this.#falling.item.getWidth(); col += 1) {
         if (this.#falling.item.colorAt(row, col) !== this.EMPTY) {
@@ -89,15 +83,19 @@ export class Board {
   #stopFalling() {
     for (let row = 0; row < this.#falling.item.getHeight(); row += 1) {
       for (let col = 0; col < this.#falling.item.getWidth(); col += 1) {
-        const cell = this.#falling.item.colorAt(row, col);
-        const boardRow = this.#falling.rowAtBoard + row;
-        const boardCol = this.#falling.colAtBoard + col;
-        if (cell !== this.EMPTY && boardRow < this.#height) {
-          this.#stationary[boardRow][boardCol] = cell;
-        }
+        this.#makeCellStation(row, col);
       }
     }
     this.#falling.item = undefined;
+  }
+
+  #makeCellStation(row, col) {
+    const cell = this.#falling.item.colorAt(row, col);
+    const boardRow = this.#falling.rowAtBoard + row;
+    const boardCol = this.#falling.colAtBoard + col;
+    if (cell !== this.EMPTY && boardRow < this.#height) {
+      this.#stationary[boardRow][boardCol] = cell;
+    }
   }
 
   hasFalling() {
@@ -112,12 +110,15 @@ export class Board {
   }
 
   #fallingAt(row, col) {
-    const fallingRow = row - this.#falling.rowAtBoard;
-    const fallingCow = col - this.#falling.colAtBoard;
-    if (this.hasFalling() && this.#isInBoundry(fallingRow, fallingCow)) {
-      return this.#falling.item.colorAt(fallingRow, fallingCow);
+    if (!this.hasFalling()) {
+      return this.EMPTY;
     }
-    return this.EMPTY;
+    const { item, rowAtBoard, colAtBoard } = this.#falling;
+    const fallingRow = row - rowAtBoard;
+    const fallingCol = col - colAtBoard;
+    return this.#isInBoundry(fallingRow, fallingCol)
+      ? item.colorAt(fallingRow, fallingCol)
+      : this.EMPTY;
   }
 
   #colorAt(row, col) {
