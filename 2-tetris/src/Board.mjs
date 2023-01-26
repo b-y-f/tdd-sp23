@@ -40,7 +40,7 @@ export class Board {
 
   moveLeft() {
     const leftBound = this.#falling.item.getLeftBoundry();
-    if (this.#falling.colAtBoard > leftBound) {
+    if (this.#falling.colAtBoard > -leftBound && !this.#hitFixedBlock()) {
       this.#falling.colAtBoard -= 1;
     }
   }
@@ -54,7 +54,7 @@ export class Board {
 
   moveDown() {
     const botBound = this.#falling.item.getBotBoundry();
-    if (this.#falling.rowAtBoard < this.#height - botBound)
+    if (this.#falling.rowAtBoard < this.#height - botBound - 1)
       this.#falling.rowAtBoard += 1;
   }
 
@@ -75,8 +75,15 @@ export class Board {
         if (cell !== this.EMPTY) {
           const boardRow = this.#falling.rowAtBoard + row;
           const boardCol = this.#falling.colAtBoard + col;
-          if (this.#stationary[boardRow + 1][boardCol] !== this.EMPTY) {
-            return true;
+          if (
+            boardCol >= 0 &&
+            boardCol < this.#width &&
+            boardRow + 1 >= 0 &&
+            boardRow + 1 < this.#height
+          ) {
+            if (this.#stationary[boardRow + 1][boardCol] !== this.EMPTY) {
+              return true;
+            }
           }
         }
       }
