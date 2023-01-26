@@ -38,6 +38,19 @@ export class RotatingShape {
     return rightBound;
   }
 
+  getBotBoundry() {
+    let botBound = this.#height - 1;
+    for (let row = this.#height - 1; row >= 0; row -= 1) {
+      for (let col = this.#width - 1; col >= 0; col -= 1) {
+        if (this.#blocks[row][col] !== this.EMPTY) {
+          return botBound;
+        }
+      }
+      botBound -= 1;
+    }
+    return botBound;
+  }
+
   getWidth() {
     return this.#width;
   }

@@ -40,7 +40,9 @@ export class Board {
 
   moveLeft() {
     const leftBound = this.#falling.item.getLeftBoundry();
-    if (this.#falling.colAtBoard > leftBound) this.#falling.colAtBoard -= 1;
+    if (this.#falling.colAtBoard > leftBound) {
+      this.#falling.colAtBoard -= 1;
+    }
   }
 
   moveRight() {
@@ -51,7 +53,9 @@ export class Board {
   }
 
   moveDown() {
-    this.#falling.rowAtBoard += 1;
+    const botBound = this.#falling.item.getBotBoundry();
+    if (this.#falling.rowAtBoard < this.#height - botBound)
+      this.#falling.rowAtBoard += 1;
   }
 
   #oneTick() {
