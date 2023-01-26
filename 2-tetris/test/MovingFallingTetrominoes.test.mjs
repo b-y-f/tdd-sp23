@@ -69,8 +69,28 @@ describe("Edge cases: board", () => {
        ..........`
     );
   });
-  it("it cannot be moved right beyond the board", () => {});
-  it("it cannot be moved down beyond the board", () => {});
+  xit("it cannot be moved right beyond the board", () => {
+    manyMoves(board.moveRight);
+    expect(board.toString()).to.equalShape(
+      `........SS
+       .......SS.
+       ..........
+       ..........
+       ..........
+       ..........`
+    );
+  });
+  xit("it cannot be moved down beyond the board", () => {
+    manyMoves(board.moveDown);
+    expect(board.toString()).to.equalShape(
+      `..........
+       ..........
+       ..........
+       ..........
+       ....SS....
+       ...SS.....`
+    );
+  });
 });
 
 describe("Edge cases: other blocks", () => {
