@@ -44,7 +44,10 @@ export class Board {
   }
 
   moveRight() {
-    this.#falling.colAtBoard += 1;
+    const rightBound = this.#falling.item.getRightBoundry();
+    if (this.#falling.colAtBoard < this.#width - rightBound - 1) {
+      this.#falling.colAtBoard += 1;
+    }
   }
 
   moveDown() {

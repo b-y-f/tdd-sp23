@@ -78,7 +78,7 @@ describe("Edge cases: board", () => {
        ..........`
     );
   });
-  xit("it cannot be moved right beyond the board", () => {
+  it("it cannot be moved right beyond the board", () => {
     manyMovesRigth(board);
     expect(board.toString()).to.equalShape(
       `........SS
