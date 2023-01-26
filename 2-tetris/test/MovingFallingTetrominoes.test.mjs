@@ -61,6 +61,12 @@ function manyMovesDown(board) {
   }
 }
 
+function tickManyTimes(board) {
+  for (let i = 0; i < 20; i += 1) {
+    board.tick();
+  }
+}
+
 describe("Edge cases: board", () => {
   let board;
   beforeEach(() => {
@@ -90,7 +96,7 @@ describe("Edge cases: board", () => {
     );
   });
   it("it cannot be moved down beyond the board", () => {
-    manyMovesDown(board);
+    tickManyTimes(board);
     expect(board.toString()).to.equalShape(
       `..........
        ..........
@@ -102,19 +108,12 @@ describe("Edge cases: board", () => {
   });
 });
 
-function tickManyTimes(board) {
-  for (let i = 0; i < 20; i += 1) {
-    board.tick();
-  }
-}
-
 describe("Edge cases: other blocks", () => {
   let board;
   beforeEach(() => {
     board = new Board(10, 6);
     board.drop(Tetromino.O_SHAPE);
     manyMovesLeft(board);
-    manyMovesDown(board);
     tickManyTimes(board);
     board.drop(Tetromino.O_SHAPE);
   });
@@ -128,7 +127,7 @@ describe("Edge cases: other blocks", () => {
        OO........`
     );
 
-    manyMovesDown(board);
+    tickManyTimes(board);
     expect(board.toString()).to.equalShape(
       `..........
        ..........
