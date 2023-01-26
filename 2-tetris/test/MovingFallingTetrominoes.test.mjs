@@ -102,8 +102,52 @@ describe("Edge cases: board", () => {
   });
 });
 
+function tickManyTimes(board) {
+  for (let i = 0; i < 20; i += 1) {
+    board.tick();
+  }
+}
+
 describe("Edge cases: other blocks", () => {
-  it("it cannot be moved left through other blocks", () => {});
+  let board;
+  beforeEach(() => {
+    board = new Board(10, 6);
+    board.drop(Tetromino.O_SHAPE);
+    manyMovesLeft(board);
+    manyMovesDown(board);
+    tickManyTimes(board);
+    board.drop(Tetromino.O_SHAPE);
+  });
+  it("it cannot be moved left through other blocks", () => {
+    expect(board.toString()).to.equalShape(
+      `....OO....
+       ....OO....
+       ..........
+       ..........
+       OO........
+       OO........`
+    );
+
+    manyMovesDown(board);
+    expect(board.toString()).to.equalShape(
+      `..........
+       ..........
+       ..........
+       ..........
+       OO..OO....
+       OO..OO....`
+    );
+
+    manyMovesLeft(board);
+    expect(board.toString()).to.equalShape(
+      `..........
+       ..........
+       ..........
+       ..........
+       OOOO......
+       OOOO......`
+    );
+  });
   it("it cannot be moved right through other blocks", () => {});
   it("it cannot be moved down through other blocks", () => {});
 });
