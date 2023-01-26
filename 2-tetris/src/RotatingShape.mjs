@@ -12,6 +12,19 @@ export class RotatingShape {
     Object.freeze(this);
   }
 
+  getLeftBoundry() {
+    let leftBound = 0;
+    for (let col = 0; col < this.getWidth(); col += 1) {
+      for (let row = 0; row < this.getHeight(); row += 1) {
+        if (this.#blocks[row][col] !== this.EMPTY) {
+          return leftBound;
+        }
+      }
+      leftBound += 1;
+    }
+    return leftBound;
+  }
+
   getWidth() {
     return this.#width;
   }
