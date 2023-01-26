@@ -7,6 +7,8 @@ export class Tetromino extends RotatingShape {
 
   static O_SHAPE = new Tetromino(".OO\n.OO\n...", 1);
 
+  static S_SHAPE = new Tetromino(".SS\nSS.\n...", 2);
+
   #allRotations;
 
   #shapeString;

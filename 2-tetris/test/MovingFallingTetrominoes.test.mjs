@@ -1,14 +1,13 @@
 import { expect } from "chai";
 import { Board } from "../src/Board.mjs";
-import { RotatingShape } from "../src/RotatingShape.mjs";
 
-const SShape = new RotatingShape(".SS\nSS.\n...");
+import { Tetromino } from "../src/Tetromino.mjs";
 
 describe("Test within range", () => {
   let board;
   beforeEach(() => {
     board = new Board(10, 6);
-    board.drop(SShape);
+    board.drop(Tetromino.S_SHAPE);
   });
 
   it("a falling tetromino can be moved left", () => {
@@ -66,7 +65,7 @@ describe("Edge cases: board", () => {
   let board;
   beforeEach(() => {
     board = new Board(10, 6);
-    board.drop(SShape);
+    board.drop(Tetromino.S_SHAPE);
   });
   it("it cannot be moved left beyond the board", () => {
     manyMovesLeft(board);
