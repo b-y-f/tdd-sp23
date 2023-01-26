@@ -46,9 +46,19 @@ describe("Test within range", () => {
   });
 });
 
-function manyMoves(fn) {
+function manyMovesLeft(board) {
   for (let i = 0; i < 20; i += 1) {
-    fn();
+    board.moveLeft();
+  }
+}
+function manyMovesRigth(board) {
+  for (let i = 0; i < 20; i += 1) {
+    board.moveRight();
+  }
+}
+function manyMovesDown(board) {
+  for (let i = 0; i < 20; i += 1) {
+    board.moveDown();
   }
 }
 
@@ -59,7 +69,7 @@ describe("Edge cases: board", () => {
     board.drop(SShape);
   });
   it("it cannot be moved left beyond the board", () => {
-    manyMoves(board.moveLeft);
+    manyMovesLeft(board);
     expect(board.toString()).to.equalShape(
       `.SS.......
        SS........
@@ -70,7 +80,7 @@ describe("Edge cases: board", () => {
     );
   });
   xit("it cannot be moved right beyond the board", () => {
-    manyMoves(board.moveRight);
+    manyMovesRigth(board);
     expect(board.toString()).to.equalShape(
       `........SS
        .......SS.
@@ -81,7 +91,7 @@ describe("Edge cases: board", () => {
     );
   });
   xit("it cannot be moved down beyond the board", () => {
-    manyMoves(board.moveDown);
+    manyMovesDown(board);
     expect(board.toString()).to.equalShape(
       `..........
        ..........
