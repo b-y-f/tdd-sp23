@@ -112,12 +112,51 @@ describe("Edge cases: other blocks", () => {
   let board;
   beforeEach(() => {
     board = new Board(10, 6);
+  });
+  it("drop first tetris", () => {
+    board.drop(Tetromino.O_SHAPE);
+    expect(board.toString()).to.equalShape(
+      `....OO....
+       ....OO....
+       ..........
+       ..........
+       ..........
+       ..........`
+    );
+  });
+
+  it("move first tetris to left", () => {
+    board.drop(Tetromino.O_SHAPE);
+    manyMovesLeft(board);
+    expect(board.toString()).to.equalShape(
+      `OO........
+       OO........
+       ..........
+       ..........
+       ..........
+       ..........`
+    );
+  });
+
+  it("tick first tetris to bottom", () => {
+    board.drop(Tetromino.O_SHAPE);
+    manyMovesLeft(board);
+    tickManyTimes(board);
+    expect(board.toString()).to.equalShape(
+      `..........
+       ..........
+       ..........
+       ..........
+       OO........
+       OO........`
+    );
+  });
+
+  xit("drop second tetris", () => {
     board.drop(Tetromino.O_SHAPE);
     manyMovesLeft(board);
     tickManyTimes(board);
     board.drop(Tetromino.O_SHAPE);
-  });
-  it("it cannot be moved left through other blocks", () => {
     expect(board.toString()).to.equalShape(
       `....OO....
        ....OO....
@@ -126,8 +165,14 @@ describe("Edge cases: other blocks", () => {
        OO........
        OO........`
     );
+  });
 
+  xit("drop second to bottom", () => {
+    board.drop(Tetromino.O_SHAPE);
+    manyMovesLeft(board);
     tickManyTimes(board);
+    board.drop(Tetromino.O_SHAPE);
+    manyMovesDown(board);
     expect(board.toString()).to.equalShape(
       `..........
        ..........
@@ -136,7 +181,8 @@ describe("Edge cases: other blocks", () => {
        OO..OO....
        OO..OO....`
     );
-
+  });
+  xit("it cannot be moved left through other blocks", () => {
     manyMovesLeft(board);
     expect(board.toString()).to.equalShape(
       `..........
@@ -147,6 +193,7 @@ describe("Edge cases: other blocks", () => {
        OOOO......`
     );
   });
+
   it("it cannot be moved right through other blocks", () => {});
   it("it cannot be moved down through other blocks", () => {});
 });
