@@ -1,11 +1,64 @@
 export class RotatingShape {
+  EMPTY = ".";
+
   #blocks;
+
+  #width;
+
+  #height;
 
   constructor(blockString) {
     this.#initBlocks(blockString);
-    this.width = this.#blocks.length;
-    this.height = this.#blocks[0].length;
+    this.#width = this.#blocks.length;
+    this.#height = this.#blocks[0].length;
     Object.freeze(this);
+  }
+
+  getLeftBoundry() {
+    let leftBound = 0;
+    for (let col = 0; col < this.#width; col += 1) {
+      for (let row = 0; row < this.#height; row += 1) {
+        if (this.#blocks[row][col] !== this.EMPTY) {
+          return leftBound;
+        }
+      }
+      leftBound += 1;
+    }
+    return leftBound;
+  }
+
+  getRightBoundry() {
+    let rightBound = this.#width - 1;
+    for (let col = this.#width - 1; col >= 0; col -= 1) {
+      for (let row = this.#height - 1; row >= 0; row -= 1) {
+        if (this.#blocks[row][col] !== this.EMPTY) {
+          return rightBound;
+        }
+      }
+      rightBound -= 1;
+    }
+    return rightBound;
+  }
+
+  getBotBoundry() {
+    let botBound = this.#height - 1;
+    for (let row = this.#height - 1; row >= 0; row -= 1) {
+      for (let col = this.#width - 1; col >= 0; col -= 1) {
+        if (this.#blocks[row][col] !== this.EMPTY) {
+          return botBound;
+        }
+      }
+      botBound -= 1;
+    }
+    return botBound;
+  }
+
+  getWidth() {
+    return this.#width;
+  }
+
+  getHeight() {
+    return this.#height;
   }
 
   #initBlocks(blockString) {
@@ -30,6 +83,10 @@ export class RotatingShape {
       .map((row) => row.join(""))
       .join("\n");
     return new RotatingShape(newShapeStr);
+  }
+
+  colorAt(row, col) {
+    return this.#blocks[row][col];
   }
 
   #cloneBlocks() {

@@ -7,13 +7,15 @@ export class Tetromino extends RotatingShape {
 
   static O_SHAPE = new Tetromino(".OO\n.OO\n...", 1);
 
+  static S_SHAPE = new Tetromino(".SS\nSS.\n...", 2);
+
   #allRotations;
 
   #shapeString;
 
   #distinctShape;
 
-  #currRotation;
+  #currRotationIdx;
 
   constructor(
     shapeString,
@@ -24,7 +26,7 @@ export class Tetromino extends RotatingShape {
     super(shapeString);
     this.#shapeString = shapeString;
     this.#distinctShape = numDistinctShape;
-    this.#currRotation = currRotation;
+    this.#currRotationIdx = currRotation;
 
     this.#decideConstructor(
       allRotations,
@@ -49,7 +51,8 @@ export class Tetromino extends RotatingShape {
   }
 
   #updateRotationNumber(currRotation, numDistinctShape, allRotations) {
-    this.#currRotation = (currRotation + numDistinctShape) % numDistinctShape;
+    this.#currRotationIdx =
+      (currRotation + numDistinctShape) % numDistinctShape;
     this.#allRotations = allRotations;
   }
 
@@ -60,14 +63,14 @@ export class Tetromino extends RotatingShape {
       this.#allRotations[i] = rotation;
       rotation = rotation.rotateRight();
     }
-    this.#currRotation = 0;
+    this.#currRotationIdx = 0;
   }
 
   rotateRight() {
     return new Tetromino(
       this.#shapeString,
       this.#distinctShape,
-      this.#currRotation + 1,
+      this.#currRotationIdx + 1,
       this.#allRotations
     );
   }
@@ -76,12 +79,20 @@ export class Tetromino extends RotatingShape {
     return new Tetromino(
       this.#shapeString,
       this.#distinctShape,
-      this.#currRotation - 1,
+      this.#currRotationIdx - 1,
       this.#allRotations
     );
   }
 
+  colorAt(row, col) {
+    return this.#currentShape().colorAt(row, col);
+  }
+
+  #currentShape() {
+    return this.#allRotations[this.#currRotationIdx];
+  }
+
   toString() {
-    return this.#allRotations[this.#currRotation].toString();
+    return this.#currentShape().toString();
   }
 }
