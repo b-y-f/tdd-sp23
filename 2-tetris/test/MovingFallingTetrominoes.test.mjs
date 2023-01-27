@@ -215,5 +215,18 @@ describe("Edge cases: other blocks", () => {
        ......OOOO`
     );
   });
-  it("it cannot be moved down through other blocks", () => {});
+  it("it cannot be moved down through other blocks", () => {
+    board.drop(Tetromino.O_SHAPE);
+    tickManyTimes(board);
+    board.drop(Tetromino.O_SHAPE);
+    tickManyTimes(board);
+    expect(board.toString()).to.equalShape(
+      `..........
+       ..........
+       ....OO....
+       ....OO....
+       ....OO....
+       ....OO....`
+    );
+  });
 });
