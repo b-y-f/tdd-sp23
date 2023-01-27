@@ -30,6 +30,10 @@ export class Board {
   }
 
   rotateFallingTetrisLeft() {
+    this.#falling.item = this.#falling.item.rotateLeft();
+  }
+
+  rotateFallingTetrisRight() {
     this.#falling.item = this.#falling.item.rotateRight();
   }
 

@@ -4,11 +4,12 @@ import { Board } from "../src/Board.mjs";
 import { Tetromino } from "../src/Tetromino.mjs";
 
 describe("Level 6: Rotating falling tetrominoes", () => {
-  let board;
-  beforeEach(() => {
-    board = new Board(10, 6);
-    board.drop(Tetromino.T_SHAPE);
-  });
+  describe("a falling tetromino can be rotated  ", () => {
+    let board;
+    beforeEach(() => {
+      board = new Board(10, 6);
+      board.drop(Tetromino.T_SHAPE);
+    });
   describe("a falling tetromino can be rotated  ", () => {
     it("add a falling tetrmo to boar", () => {
       board.tick();
@@ -16,9 +17,23 @@ describe("Level 6: Rotating falling tetrominoes", () => {
       expect(board.toString()).to.equalShape(
         `..........
          ....T.....
-         ....TT....
+         ...TT.....
          ....T.....
          ..........
+         ..........`
+      );
+    });
+
+    it("add a falling tetrmo to boar", () => {
+      board.tick();
+      board.tick();
+      board.rotateFallingTetrisRight();
+      expect(board.toString()).to.equalShape(
+        `..........
+         ..........
+         ....T.....
+         ....TT....
+         ....T.....
          ..........`
       );
     });
