@@ -47,7 +47,10 @@ export class Board {
 
   moveRight() {
     const rightBound = this.#falling.item.getRightBoundry();
-    if (this.#falling.colAtBoard < this.#width - rightBound - 1) {
+    if (
+      this.#falling.colAtBoard < this.#width - rightBound - 1 &&
+      !this.#hitFixedBlock()
+    ) {
       this.#falling.colAtBoard += 1;
     }
   }
@@ -70,7 +73,7 @@ export class Board {
 
   #hitFixedBlock() {
     for (let row = 0; row < this.#falling.item.getHeight(); row += 1) {
-      for (let col = 0; col < this.#falling.item.getWidth(); col += 1) {
+      for (let col = 0; col < this.#falling.item.getWidth() + 1; col += 1) {
         const cell = this.#falling.item.colorAt(row, col);
         if (cell !== this.EMPTY) {
           const boardRow = this.#falling.rowAtBoard + row;
@@ -97,7 +100,7 @@ export class Board {
     return (
       boardCol >= 0 &&
       boardCol < this.#width &&
-      boardRow + 1 >= 0 &&
+      boardRow >= 0 &&
       boardRow + 1 < this.#height
     );
   }

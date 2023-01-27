@@ -50,7 +50,7 @@ function manyMovesLeft(board) {
     board.moveLeft();
   }
 }
-function manyMovesRigth(board) {
+function manyMovesRight(board) {
   for (let i = 0; i < 20; i += 1) {
     board.moveRight();
   }
@@ -85,7 +85,7 @@ describe("Edge cases: board", () => {
     );
   });
   it("it cannot be moved right beyond the board", () => {
-    manyMovesRigth(board);
+    manyMovesRight(board);
     expect(board.toString()).to.equalShape(
       `........SS
        .......SS.
@@ -199,6 +199,21 @@ describe("Edge cases: other blocks", () => {
     );
   });
 
-  it("it cannot be moved right through other blocks", () => {});
+  it("it cannot be moved right through other blocks", () => {
+    board.drop(Tetromino.O_SHAPE);
+    manyMovesRight(board);
+    tickManyTimes(board);
+    board.drop(Tetromino.O_SHAPE);
+    manyMovesDown(board);
+    manyMovesRight(board);
+    expect(board.toString()).to.equalShape(
+      `..........
+       ..........
+       ..........
+       ..........
+       ......OOOO
+       ......OOOO`
+    );
+  });
   it("it cannot be moved down through other blocks", () => {});
 });
