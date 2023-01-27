@@ -76,30 +76,39 @@ export class Board {
           const boardRow = this.#falling.rowAtBoard + row;
           const boardCol = this.#falling.colAtBoard + col;
           if (
-            boardCol >= 0 &&
-            boardCol < this.#width &&
-            boardRow + 1 >= 0 &&
-            boardRow + 1 < this.#height
+            this.#ifTetrisInBoard(boardCol, boardRow) &&
+            this.#stationary[boardRow + 1][boardCol] !== this.EMPTY
           ) {
-            if (this.#stationary[boardRow + 1][boardCol] !== this.EMPTY) {
-              return true;
-            }
+            return true;
           }
         }
       }
     }
-    if (
-      this.#falling.rowAtBoard >= 0 &&
-      this.#falling.rowAtBoard < this.#height &&
-      this.#falling.colAtBoard >= 0 &&
-      this.#falling.colAtBoard < this.#width
-    ) {
+    if (this.#ifFallingAtBoard()) {
       return (
         this.#stationary[this.#falling.rowAtBoard][this.#falling.colAtBoard] !==
         this.EMPTY
       );
     }
     return false;
+  }
+
+  #ifTetrisInBoard(boardCol, boardRow) {
+    return (
+      boardCol >= 0 &&
+      boardCol < this.#width &&
+      boardRow + 1 >= 0 &&
+      boardRow + 1 < this.#height
+    );
+  }
+
+  #ifFallingAtBoard() {
+    return (
+      this.#falling.rowAtBoard >= 0 &&
+      this.#falling.rowAtBoard < this.#height &&
+      this.#falling.colAtBoard >= 0 &&
+      this.#falling.colAtBoard < this.#width
+    );
   }
 
   #hitBottom() {
