@@ -152,7 +152,7 @@ describe("Edge cases: other blocks", () => {
     );
   });
 
-  xit("drop second tetris", () => {
+  it("drop second tetris", () => {
     board.drop(Tetromino.O_SHAPE);
     manyMovesLeft(board);
     tickManyTimes(board);
@@ -167,7 +167,7 @@ describe("Edge cases: other blocks", () => {
     );
   });
 
-  xit("drop second to bottom", () => {
+  it("drop second to bottom", () => {
     board.drop(Tetromino.O_SHAPE);
     manyMovesLeft(board);
     tickManyTimes(board);
@@ -182,7 +182,12 @@ describe("Edge cases: other blocks", () => {
        OO..OO....`
     );
   });
-  xit("it cannot be moved left through other blocks", () => {
+  it("it cannot be moved left through other blocks", () => {
+    board.drop(Tetromino.O_SHAPE);
+    manyMovesLeft(board);
+    tickManyTimes(board);
+    board.drop(Tetromino.O_SHAPE);
+    manyMovesDown(board);
     manyMovesLeft(board);
     expect(board.toString()).to.equalShape(
       `..........

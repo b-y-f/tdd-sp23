@@ -88,10 +88,18 @@ export class Board {
         }
       }
     }
-    return (
-      this.#stationary[this.#falling.rowAtBoard][this.#falling.colAtBoard] !==
-      this.EMPTY
-    );
+    if (
+      this.#falling.rowAtBoard >= 0 &&
+      this.#falling.rowAtBoard < this.#height &&
+      this.#falling.colAtBoard >= 0 &&
+      this.#falling.colAtBoard < this.#width
+    ) {
+      return (
+        this.#stationary[this.#falling.rowAtBoard][this.#falling.colAtBoard] !==
+        this.EMPTY
+      );
+    }
+    return false;
   }
 
   #hitBottom() {
