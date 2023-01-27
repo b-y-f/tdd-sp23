@@ -47,18 +47,16 @@ export class Board {
 
   moveRight() {
     const rightBound = this.#falling.item.getRightBoundry();
-    if (
-      this.#falling.colAtBoard < this.#width - rightBound - 1 &&
-      !this.#hitFixedBlock()
-    ) {
+    const upperBound = this.#width - rightBound - 1;
+    if (this.#falling.colAtBoard < upperBound && !this.#hitFixedBlock()) {
       this.#falling.colAtBoard += 1;
     }
   }
 
   moveDown() {
     const botBound = this.#falling.item.getBotBoundry();
-    if (this.#falling.rowAtBoard < this.#height - botBound - 1)
-      this.#falling.rowAtBoard += 1;
+    const upperBound = this.#height - botBound - 1;
+    if (this.#falling.rowAtBoard < upperBound) this.#falling.rowAtBoard += 1;
   }
 
   #oneTick() {
@@ -74,26 +72,34 @@ export class Board {
   #hitFixedBlock() {
     for (let row = 0; row < this.#falling.item.getHeight(); row += 1) {
       for (let col = 0; col < this.#falling.item.getWidth() + 1; col += 1) {
-        const cell = this.#falling.item.colorAt(row, col);
-        if (cell !== this.EMPTY) {
+        if (this.#ifCellNotEmpty(row, col)) {
           const boardRow = this.#falling.rowAtBoard + row;
           const boardCol = this.#falling.colAtBoard + col;
-          if (
-            this.#ifTetrisInBoard(boardCol, boardRow) &&
-            this.#stationary[boardRow + 1][boardCol] !== this.EMPTY
-          ) {
+          if (this.#collisionWithNextRow(boardCol, boardRow)) {
             return true;
           }
         }
       }
     }
-    if (this.#ifFallingAtBoard()) {
-      return (
-        this.#stationary[this.#falling.rowAtBoard][this.#falling.colAtBoard] !==
-        this.EMPTY
-      );
-    }
-    return false;
+    return this.#ifFallingAtBoard() ? this.#ifCollision() : false;
+  }
+
+  #ifCellNotEmpty(row, col) {
+    return this.#falling.item.colorAt(row, col) !== this.EMPTY;
+  }
+
+  #collisionWithNextRow(boardCol, boardRow) {
+    return (
+      this.#ifTetrisInBoard(boardCol, boardRow) &&
+      this.#stationary[boardRow + 1][boardCol] !== this.EMPTY
+    );
+  }
+
+  #ifCollision() {
+    return (
+      this.#stationary[this.#falling.rowAtBoard][this.#falling.colAtBoard] !==
+      this.EMPTY
+    );
   }
 
   #ifTetrisInBoard(boardCol, boardRow) {
