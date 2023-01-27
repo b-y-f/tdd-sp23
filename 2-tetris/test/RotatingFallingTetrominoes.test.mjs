@@ -10,7 +10,6 @@ describe("Level 6: Rotating falling tetrominoes", () => {
       board = new Board(10, 6);
       board.drop(Tetromino.T_SHAPE);
     });
-  describe("a falling tetromino can be rotated  ", () => {
     it("add a falling tetrmo to boar", () => {
       board.tick();
       board.rotateFallingTetrisLeft();
@@ -39,7 +38,44 @@ describe("Level 6: Rotating falling tetrominoes", () => {
     });
   });
 
-  describe("it cannot be rotated when there is no room to rotate", () => {});
+  function tickManyTimes(board) {
+    for (let i = 0; i < 20; i += 1) {
+      board.tick();
+    }
+  }
+
+  describe("it cannot be rotated when there is no room to rotate", () => {
+    let board;
+    beforeEach(() => {
+      board = new Board(10, 6);
+      board.drop(Tetromino.O_SHAPE);
+      board.moveLeft();
+      tickManyTimes(board);
+
+      board.drop(Tetromino.O_SHAPE);
+      board.moveRight();
+      board.moveRight();
+      tickManyTimes(board);
+
+      board.drop(Tetromino.T_SHAPE);
+      board.moveRight();
+      board.rotateFallingTetrisLeft();
+      board.rotateFallingTetrisLeft();
+      board.tick();
+      board.tick();
+      board.rotateFallingTetrisLeft();
+    });
+    it("x", () => {
+      expect(board.toString()).to.equalShape(
+        `..........
+         ..........
+         ..........
+         ....TTT...
+         ...OOTOO..
+         ...OO.OO..`
+      );
+    });
+  });
 
   describe("when it is up against a wall and is rotated, but there is no room to rotate, move it away from the wall if possible", () => {});
 });
