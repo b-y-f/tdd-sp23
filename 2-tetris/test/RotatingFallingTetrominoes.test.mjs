@@ -65,7 +65,7 @@ describe("Level 6: Rotating falling tetrominoes", () => {
       board.tick();
       board.rotateFallingTetrisLeft();
     });
-    it("x", () => {
+    it("can not rotate in below situation", () => {
       expect(board.toString()).to.equalShape(
         `..........
          ..........
