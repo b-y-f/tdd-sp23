@@ -29,6 +29,10 @@ export class Board {
     }
   }
 
+  rotateFallingTetrisLeft() {
+    this.#falling.item = this.#falling.item.rotateRight();
+  }
+
   tick() {
     if (this.#falling.item) {
       if (this.#hitBottom() || this.#hitFixedBlock()) {
