@@ -1,8 +1,16 @@
 import { World } from "../src/World";
 
 describe("Test world, cell and neighbor cells", () => {
-  it("World can be add a cell", () => {
-    const world = new World(10, 10);
-    expect(world.getNumberOfCell()).toBe(100);
+  let world;
+  beforeEach(() => {
+    world = new World(10, 10);
+  });
+  it("test alive cell number", () => {
+    expect(world.getNumOfAliveCell()).toBe(0);
+  });
+
+  it("add cell to the map(world)", () => {
+    world.addCell(3, 3, true);
+    expect(world.getNumOfAliveCell()).toBe(1);
   });
 });

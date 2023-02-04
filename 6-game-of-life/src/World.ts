@@ -1,6 +1,6 @@
 interface Cell {
-  row: number;
-  col: number;
+  x: number;
+  y: number;
   isAlive: boolean;
 }
 
@@ -14,7 +14,11 @@ export class World {
     this.cells = [];
   }
 
-  public getNumberOfCell(): number {
-    return this.width * this.height;
+  public addCell(x: number, y: number, isAlive: boolean) {
+    this.cells.push({ x, y, isAlive });
+  }
+
+  public getNumOfAliveCell(): number {
+    return this.cells.length;
   }
 }
