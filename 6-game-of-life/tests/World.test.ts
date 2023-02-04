@@ -16,8 +16,8 @@ describe("Test world, cell and neighbor cells", () => {
 
   it("test rules alive neighbors number", () => {
     const cell: Cell = {
-      x: 2,
-      y: 2,
+      col: 2,
+      row: 2,
       isAlive: true,
     };
     const aliveNeighbors = world.getAliveNeighbors(cell);
