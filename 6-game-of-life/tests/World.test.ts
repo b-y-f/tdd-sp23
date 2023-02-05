@@ -71,4 +71,14 @@ describe("Evolve tests", () => {
     const state = world.getCell(4, 4).isAlive;
     expect(state).toBe(true);
   });
+
+  it("any dead cell with three live neighbor become alive cell", () => {
+    world.addCell(4, 4, false);
+    world.addCell(3, 3, true);
+    world.addCell(5, 5, true);
+    world.addCell(3, 4, true);
+    world.evolve();
+    const state = world.getCell(4, 4).isAlive;
+    expect(state).toBe(true);
+  });
 });
