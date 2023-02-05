@@ -14,12 +14,28 @@ export class World {
     this.cells = [];
   }
 
+  public evolve(): void {
+    const nextGen: Cell[] = [];
+    for (const cell of this.cells) {
+      const aliveNeighbors = this.getAliveNeighbors(cell);
+      if (cell.isAlive) {
+        if (aliveNeighbors === 2 || aliveNeighbors === 3) {
+          nextGen.push({ ...cell, isAlive: true });
+        }
+      }
+    }
+  }
+
   public addCell(row: number, col: number, isAlive: boolean) {
     this.cells.push({ row: row, col: col, isAlive });
   }
 
   public getNumOfAliveCell(): number {
     return this.cells.length;
+  }
+
+  public getCell(row: number, col: number): Cell {
+    return this.cells.find((c) => c.row === row && c.col === col);
   }
 
   public getAliveNeighbors(cell: Cell): number {
@@ -35,7 +51,7 @@ export class World {
           row
         );
         if (this.neighborInWorld(neighborCol)) {
-          const neighbor = this.findNeighbor(neighborCol, neighborRow);
+          const neighbor = this.getCell(neighborCol, neighborRow);
           if (neighbor && neighbor.isAlive) {
             cnt++;
           }
@@ -49,12 +65,6 @@ export class World {
     const neighborCol = cell.col + col;
     const neighborRow = cell.row + row;
     return { neighborCol, neighborRow };
-  }
-
-  private findNeighbor(neighborCol: number, neighborRow: number) {
-    return this.cells.find(
-      (c) => c.col === neighborCol && c.row === neighborRow
-    );
   }
 
   private neighborInWorld(neighborCol: number) {
