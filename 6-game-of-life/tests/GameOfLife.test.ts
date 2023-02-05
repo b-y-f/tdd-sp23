@@ -35,4 +35,11 @@ bob$2bo$3o!`;
     game.fromRLE(patString);
     expect(game.getWorld().getNumOfAliveCell()).toBe(5);
   });
+
+  it("15 cell raw diagonal", () => {
+    const patString = `x = 14, y = 13, rule = B3/S23
+12b2o$11bobo$10bo$9bo$8bo$7bo$6bo$5bo$4bo$3bo$2bo$bo$o!`;
+    game.fromRLE(patString);
+    expect(game.getWorld().getNumOfAliveCell()).toBe(15);
+  });
 });
