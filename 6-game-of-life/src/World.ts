@@ -4,61 +4,55 @@ export interface Cell {
   isAlive: boolean;
 }
 
+/**
+ * this world will accept width and height to initial,
+ * then 2d cell will initially be all dead cells
+ */
 export class World {
-  private cells: Cell[];
+  private cells: Cell[][];
   private width: number;
   private height: number;
   constructor(width: number, height: number) {
     this.width = width;
     this.height = height;
     this.cells = [];
+    for (let row = 0; row < height; row++) {
+      this.cells[row] = [];
+      for (let col = 0; col < width; col++) {
+        const initCell: Cell = {
+          x: col,
+          y: row,
+          isAlive: false,
+        };
+        this.cells[row][col] = initCell;
+      }
+    }
   }
 
   public evolve(): void {
-    const nextGen: Cell[] = [];
-    for (const cell of this.cells) {
-      const aliveNeighbors = this.getAliveNeighbors(cell);
-      if (cell.isAlive) {
-        if (aliveNeighbors === 2 || aliveNeighbors === 3) {
-          nextGen.push({ ...cell, isAlive: true });
-        } else {
-          nextGen.push({ ...cell, isAlive: false });
-        }
-      } else {
-        if (aliveNeighbors === 3) {
-          nextGen.push({ ...cell, isAlive: true });
-        } else {
-          nextGen.push({ ...cell, isAlive: false });
-        }
+    for (let row = 0; row < this.cells.length; row++) {
+      for (let col = 0; col < this.cells[0].length; col++) {
+        const aliveNeighbors = this.getAliveNeighbors();
       }
     }
-    this.cells = nextGen;
   }
 
   public addCell(row: number, col: number, isAlive: boolean) {
-    this.cells.push({ y: row, x: col, isAlive });
+    this.cells[row][col].isAlive = isAlive;
   }
 
   public getNumOfAliveCell(): number {
     return this.cells.length;
   }
 
-  public getCell(row: number, col: number): Cell {
-    return this.cells.find((c) => c.y === row && c.x === col);
-  }
-
-  public getAliveNeighbors(cell: Cell): number {
+  public getAliveNeighbors(row: number, col: number): number {
     let cnt = 0;
     for (let row = -1; row <= 1; row++) {
       for (let col = -1; col <= 1; col++) {
         if (row == 0 && col == 0) {
           continue;
         }
-        const { neighborCol, neighborRow } = this.getNeighborPos(
-          cell,
-          col,
-          row
-        );
+        const { neighborCol, neighborRow } = this.getNeighborPos(col, row);
         if (this.neighborInWorld(neighborCol)) {
           const neighbor = this.getCell(neighborCol, neighborRow);
           if (neighbor && neighbor.isAlive) {
