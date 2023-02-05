@@ -38,4 +38,22 @@ describe("Test world, cell and neighbor cells", () => {
     const aliveNeighbors = world.getAliveNeighbors(cell0);
     expect(aliveNeighbors).toBe(3);
   });
+
+  it("more(8) neighbors test", () => {
+    const cell: Cell = {
+      row: 4,
+      col: 4,
+      isAlive: true,
+    };
+    world.addCell(3, 3, true);
+    world.addCell(5, 5, true);
+    world.addCell(5, 4, true);
+    world.addCell(4, 5, true);
+    world.addCell(3, 5, true);
+    world.addCell(5, 3, true);
+    world.addCell(3, 4, true);
+    world.addCell(4, 3, true);
+    const aliveNeighbors = world.getAliveNeighbors(cell);
+    expect(aliveNeighbors).toBe(8);
+  });
 });
