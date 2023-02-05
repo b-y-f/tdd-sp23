@@ -24,17 +24,14 @@ x = 2, y = 2, rule = B3/S23
     expect(game.getWorld().getNumOfAliveCell()).toBe(4);
   });
 
-  it("More complexed pattern, 48 live cells", () => {
-    const patString = `#N Pulsar
-#O John Conway
-#C A period 3 oscillator. Despite its size, this is the fourth most common oscillator (and by
-#C far the most common of period greater than 2).
-#C www.conwaylife.com/wiki/index.php?title=Pulsar
-x = 13, y = 13, rule = B3/S23
-2b3o3b3o2b2$o4bobo4bo$o4bobo4bo$o4bobo4bo$2b3o3b3o2b2$2b3o3b3o2b$o4bob
-o4bo$o4bobo4bo$o4bobo4bo2$2b3o3b3o!`;
-
+  it("bit complex pattern, Glider", () => {
+    const patString = `#N Glider
+#O Richard K. Guy
+#C The smallest, most common, and first discovered spaceship. Diagonal, has period 4 and speed c/4.
+#C www.conwaylife.com/wiki/index.php?title=Glider
+x = 3, y = 3, rule = B3/S23
+bob$2bo$3o!`;
     game.fromRLE(patString);
-    expect(game.getWorld().getNumOfAliveCell()).toBe(48);
+    expect(game.getWorld().getNumOfAliveCell()).toBe(5);
   });
 });
