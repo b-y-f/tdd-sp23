@@ -1,4 +1,4 @@
-import { World, Cell } from "../src/World";
+import { World } from "../src/World";
 
 describe("Test world, cell and neighbor cells", () => {
   let world;

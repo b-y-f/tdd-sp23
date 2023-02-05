@@ -67,7 +67,7 @@ export class World {
     this.cells = nextGen;
   }
 
-  public addCell(row: number, col: number) {
+  public addCell(row: number, col: number): void {
     this.cells[row][col].isAlive = true;
   }
 
