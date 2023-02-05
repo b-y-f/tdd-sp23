@@ -42,4 +42,14 @@ bob$2bo$3o!`;
     game.fromRLE(patString);
     expect(game.getWorld().getNumOfAliveCell()).toBe(15);
   });
+
+  it("Cis-bi-boat , 10 cells", () => {
+    const patString = `#N cisbiboat.rle
+#C https://conwaylife.com/wiki/Cis-bi-boat
+#C https://www.conwaylife.com/patterns/cisbiboat.rle
+x = 7, y = 3, rule = B3/S23
+bo3bo$obobobo$b2ob2o!`;
+    game.fromRLE(patString);
+    expect(game.getWorld().getNumOfAliveCell()).toBe(10);
+  });
 });
