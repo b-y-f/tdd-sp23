@@ -24,8 +24,8 @@ export class World {
 
   public getAliveNeighbors(cell: Cell): number {
     let cnt = 0;
-    for (let row = -1; row < 1; row++) {
-      for (let col = -1; col < 1; col++) {
+    for (let row = -1; row <= 1; row++) {
+      for (let col = -1; col <= 1; col++) {
         if (row == 0 && col == 0) {
           continue;
         }
