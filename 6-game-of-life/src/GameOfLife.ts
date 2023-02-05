@@ -1,4 +1,3 @@
-import { count } from "console";
 import { World } from "./World";
 
 /**
@@ -20,6 +19,10 @@ export class GameOfLife {
    * @param input this input is come from command line
    */
   public fromRLE(input: string): void {
+    this.initWorld(input);
+  }
+
+  private initWorld(input: string) {
     const lines = input.split("\n");
     const noCommentLines = lines.filter((line) => !line.includes("#"));
     const firstLine = noCommentLines[0].split(",");
@@ -27,10 +30,10 @@ export class GameOfLife {
       .slice(0, 2)
       .map((e) => Number(e.match(/\d+/)));
     const patternLine = noCommentLines[1];
-
     this.world = new World(width + 2, height + 2);
     this.decodeRLE(patternLine);
   }
+
   private decodeRLE(patternString: string): void {
     let currIndex = 0;
     let runCount = 0;

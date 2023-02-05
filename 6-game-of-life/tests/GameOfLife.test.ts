@@ -1,3 +1,4 @@
+/* eslint-disable jest/no-disabled-tests */
 /**
  * this test will test UI of this game, this UI will be
  * able to read RLE file and write to RLE file(decode and encode)
