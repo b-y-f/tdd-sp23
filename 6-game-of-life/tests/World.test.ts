@@ -81,4 +81,11 @@ describe("Evolve tests", () => {
     const state = world.getCell(4, 4).isAlive;
     expect(state).toBe(true);
   });
+
+  it("any other die in next generation, dead stay dead", () => {
+    world.addCell(4, 4, false);
+    world.evolve();
+    const state = world.getCell(4, 4).isAlive;
+    expect(state).toBe(false);
+  });
 });
