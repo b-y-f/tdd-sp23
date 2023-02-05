@@ -1,3 +1,4 @@
+import { count } from "console";
 import { World } from "./World";
 
 /**
@@ -28,27 +29,46 @@ export class GameOfLife {
     const patternLine = noCommentLines[1];
 
     this.world = new World(width + 2, height + 2);
-
-    const arr = patternLine.split("$");
-    for (let i = 0; i < arr.length; i++) {
-      this.decodeRLELine(arr[i], i + 1);
-    }
+    this.decodeRLE(patternLine);
   }
+  private decodeRLE(patternString: string): void {
+    let currIndex = 0;
+    let runCount = 0;
 
-  private decodeRLELine(line: string, row: number): void {
-    let count = 0;
+    let row = 1;
+    let col = 1;
 
-    for (let i = 0; i < line.length; i++) {
-      let char = line[i];
-      if (char >= "0" && char <= "9") {
-        count = count * 10 + Number(char);
-      } else {
-        for (let j = 0; j < count; j++) {
-          if (char === "o") {
-            this.world.addCell(row, j + 1);
+    while (patternString.charAt(currIndex) !== "!") {
+      const char = patternString.charAt(currIndex);
+
+      if (char === "$") {
+        row++;
+        col = 1;
+      } else if (char === "b") {
+        if (runCount === 0) {
+          col++;
+        } else {
+          while (runCount != 0) {
+            col++;
+            runCount--;
           }
         }
+      } else if (char === "o") {
+        if (runCount === 0) {
+          this.world.addCell(row, col);
+          col++;
+        } else {
+          while (runCount != 0) {
+            this.world.addCell(row, col);
+            col++;
+            runCount--;
+          }
+        }
+      } else {
+        runCount = 10 * runCount + Number(char);
       }
+
+      currIndex++;
     }
   }
 }
