@@ -29,53 +29,77 @@ export class World {
     }
   }
 
-  public evolve(): void {
-    for (let row = 0; row < this.cells.length; row++) {
-      for (let col = 0; col < this.cells[0].length; col++) {
-        const aliveNeighbors = this.getAliveNeighbors();
-      }
-    }
+  public getCell(row: number, col: number): Cell {
+    return this.cells[row][col];
   }
 
-  public addCell(row: number, col: number, isAlive: boolean) {
-    this.cells[row][col].isAlive = isAlive;
+  private deepCopy(arr: any[][]): any[][] {
+    const newArray = [];
+    for (let i = 0; i < arr.length; i++) {
+      newArray[i] = [];
+      for (let j = 0; j < arr[i].length; j++) {
+        newArray[i][j] = arr[i][j];
+      }
+    }
+    return newArray;
+  }
+
+  /**
+   * When come with "b" and "o" from RLE: b=DEAD, o=ALIVE
+   */
+  public evolve(): void {
+    const nextGen = this.deepCopy(this.cells);
+    for (let row = 0; row < this.cells.length; row++) {
+      for (let col = 0; col < this.cells[0].length; col++) {
+        const aliveNeighbors = this.getAliveNeighbors(row, col);
+
+        if (this.cells[row][col].isAlive) {
+          if (aliveNeighbors === 2 || aliveNeighbors === 3) {
+            nextGen[row][col].isAlive = true;
+          }
+        } else {
+          if (aliveNeighbors === 3) {
+            nextGen[row][col].isAlive = true;
+          }
+        }
+      }
+    }
+    this.cells = nextGen;
+  }
+
+  public addCell(row: number, col: number) {
+    this.cells[row][col].isAlive = true;
   }
 
   public getNumOfAliveCell(): number {
-    return this.cells.length;
+    let liveNeighbors = 0;
+    for (let row = 0; row < this.height; row++) {
+      for (let col = 0; col < this.width; col++) {
+        if (this.cells[row][col].isAlive) {
+          liveNeighbors++;
+        }
+      }
+    }
+    return liveNeighbors;
   }
 
   public getAliveNeighbors(row: number, col: number): number {
     let cnt = 0;
-    for (let row = -1; row <= 1; row++) {
-      for (let col = -1; col <= 1; col++) {
-        if (row == 0 && col == 0) {
+    for (let i = -1; i <= 1; i++) {
+      for (let j = -1; j <= 1; j++) {
+        if (i == 0 && j == 0) {
           continue;
         }
-        const { neighborCol, neighborRow } = this.getNeighborPos(col, row);
-        if (this.neighborInWorld(neighborCol)) {
-          const neighbor = this.getCell(neighborCol, neighborRow);
-          if (neighbor && neighbor.isAlive) {
+        const r = row + i;
+        const c = col + j;
+
+        if (r >= 0 && r < this.height && c >= 0 && c < this.width) {
+          if (this.cells[r][c].isAlive) {
             cnt++;
           }
         }
       }
     }
     return cnt;
-  }
-
-  private getNeighborPos(cell: Cell, col: number, row: number) {
-    const neighborCol = cell.x + col;
-    const neighborRow = cell.y + row;
-    return { neighborCol, neighborRow };
-  }
-
-  private neighborInWorld(neighborCol: number) {
-    return (
-      neighborCol >= 0 &&
-      neighborCol < this.height &&
-      neighborCol >= 0 &&
-      neighborCol < this.width
-    );
   }
 }
