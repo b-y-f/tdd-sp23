@@ -57,3 +57,18 @@ describe("Test world, cell and neighbor cells", () => {
     expect(aliveNeighbors).toBe(8);
   });
 });
+
+describe("Evolve tests", () => {
+  let world;
+  beforeEach(() => {
+    world = new World(10, 10);
+  });
+  it("any live cell with two or three live neighbor survives", () => {
+    world.addCell(4, 4, true);
+    world.addCell(3, 3, true);
+    world.addCell(5, 5, true);
+    world.evolve();
+    const state = world.getCell(4, 4).isAlive;
+    expect(state).toBe(true);
+  });
+});
