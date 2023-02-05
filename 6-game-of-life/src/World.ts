@@ -1,6 +1,6 @@
 export interface Cell {
-  row: number;
-  col: number;
+  y: number;
+  x: number;
   isAlive: boolean;
 }
 
@@ -36,7 +36,7 @@ export class World {
   }
 
   public addCell(row: number, col: number, isAlive: boolean) {
-    this.cells.push({ row: row, col: col, isAlive });
+    this.cells.push({ y: row, x: col, isAlive });
   }
 
   public getNumOfAliveCell(): number {
@@ -44,7 +44,7 @@ export class World {
   }
 
   public getCell(row: number, col: number): Cell {
-    return this.cells.find((c) => c.row === row && c.col === col);
+    return this.cells.find((c) => c.y === row && c.x === col);
   }
 
   public getAliveNeighbors(cell: Cell): number {
@@ -71,8 +71,8 @@ export class World {
   }
 
   private getNeighborPos(cell: Cell, col: number, row: number) {
-    const neighborCol = cell.col + col;
-    const neighborRow = cell.row + row;
+    const neighborCol = cell.x + col;
+    const neighborRow = cell.y + row;
     return { neighborCol, neighborRow };
   }
 
