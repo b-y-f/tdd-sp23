@@ -21,9 +21,18 @@ export class World {
       if (cell.isAlive) {
         if (aliveNeighbors === 2 || aliveNeighbors === 3) {
           nextGen.push({ ...cell, isAlive: true });
+        } else {
+          nextGen.push({ ...cell, isAlive: false });
+        }
+      } else {
+        if (aliveNeighbors === 3) {
+          nextGen.push({ ...cell, isAlive: true });
+        } else {
+          nextGen.push({ ...cell, isAlive: false });
         }
       }
     }
+    this.cells = nextGen;
   }
 
   public addCell(row: number, col: number, isAlive: boolean) {
