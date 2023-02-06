@@ -81,4 +81,9 @@ bob$2bo$3o!`;
     game.iterEvolve(10);
     expect(game.getWorld().getNumOfAliveCell()).toBe(5);
   });
+
+  it("Gilder should able to keep same shape after 1000 evolves", () => {
+    game.iterEvolve(1000);
+    expect(game.getWorld().getNumOfAliveCell()).toBe(5);
+  });
 });
