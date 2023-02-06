@@ -15,18 +15,7 @@ export class World {
   constructor(width: number, height: number) {
     this.width = width;
     this.height = height;
-    this.cells = [];
-    for (let row = 0; row < height; row++) {
-      this.cells[row] = [];
-      for (let col = 0; col < width; col++) {
-        const initCell: Cell = {
-          x: col,
-          y: row,
-          isAlive: false,
-        };
-        this.cells[row][col] = initCell;
-      }
-    }
+    this.initCells(height, width);
   }
 
   public getCell(row: number, col: number): Cell {
@@ -87,9 +76,9 @@ export class World {
         if (i == 0 && j == 0) {
           continue;
         }
+
         const r = row + i;
         const c = col + j;
-
         if (r >= 0 && r < this.height && c >= 0 && c < this.width) {
           if (this.cells[r][c].isAlive) {
             cnt++;
@@ -98,5 +87,20 @@ export class World {
       }
     }
     return cnt;
+  }
+
+  private initCells(height: number, width: number) {
+    this.cells = [];
+    for (let row = 0; row < height; row++) {
+      this.cells[row] = [];
+      for (let col = 0; col < width; col++) {
+        const initCell: Cell = {
+          x: col,
+          y: row,
+          isAlive: false,
+        };
+        this.cells[row][col] = initCell;
+      }
+    }
   }
 }
