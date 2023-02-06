@@ -161,11 +161,6 @@ x = 13, y = 13, rule = B3/S23
 o4bo$o4bobo4bo$o4bobo4bo2$2b3o3b3o!`;
     game.fromRLE(pattern);
 
-    // problem probably not fromRLE,
-    // because it is fine when add init pattern
-    // The problem could be either reside evolve or toRLE
-
-    // to find where the problem is , we need test them seperately
     game.iterEvolve(1);
 
     expect(game.toRLE()).toBe(`x = 15, y = 15
