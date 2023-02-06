@@ -87,3 +87,24 @@ bob$2bo$3o!`;
     expect(game.getWorld().getNumOfAliveCell()).toBe(5);
   });
 });
+
+describe("It should be able to correctly output world of cells to RLE string", () => {
+  let game;
+  beforeEach(() => {
+    game = new GameOfLife();
+    const blockString = `#N Block
+#C An extremely common 4-cell still life.
+#C www.conwaylife.com/wiki/index.php?title=Block
+x = 2, y = 2, rule = B3/S23
+2o$2o!`;
+
+    game.fromRLE(blockString);
+  });
+
+  it("Test block pattern", () => {
+    game.iterEvolve(10);
+    const rle = game.toRLE();
+    expect(rle).toEqual(`x = 2, y = 2
+2o$2o!`);
+  });
+});
