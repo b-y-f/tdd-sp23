@@ -6,7 +6,9 @@ import { World } from "./World";
  * it will output the shape after n-iter
  */
 export class GameOfLife {
+  private LINE_LIMIT = 70;
   private world: World;
+  private rle: string;
   constructor() {}
 
   public getWorld(): World {
@@ -23,59 +25,98 @@ export class GameOfLife {
   }
 
   public toRLE(): string {
-    let s = "";
+    var { height, width, runCount, strLen, newlineCount } =
+      this.initMetaOfRLE();
 
-    const currWorld = this.getWorld();
-    const height = currWorld.getHeight();
-    const width = currWorld.getWidth();
+    for (let row = 1; row < height - 1; row += 1) {
+      ({ runCount, strLen } = this.encodeCells(width, row, runCount, strLen));
+
+      ({ newlineCount, strLen } = this.encodeNewLines(
+        row,
+        width,
+        newlineCount,
+        strLen
+      ));
+    }
+    this.rle += "!";
+    return this.rle;
+  }
+
+  private encodeNewLines(
+    row: number,
+    width: number,
+    newlineCount: number,
+    strLen: number
+  ): {
+    newlineCount: number;
+    strLen: number;
+  } {
+    const nextRowEmpty = this.isRowAllDead(row + 1, width, this.world);
+    if (nextRowEmpty) {
+      newlineCount += 1;
+    } else {
+      if (strLen > this.LINE_LIMIT) {
+        this.rle += "\n";
+        strLen = 1;
+      }
+
+      if (newlineCount === 1) {
+        this.rle += "$";
+        strLen++;
+      } else {
+        this.rle += newlineCount + "$";
+        strLen += 2;
+      }
+      strLen++;
+      newlineCount = 1;
+    }
+    return { newlineCount, strLen };
+  }
+
+  private encodeCells(
+    width: number,
+    row: number,
+    runCount: number,
+    strLen: number
+  ): {
+    runCount: number;
+    strLen: number;
+  } {
+    for (let col = 1; col < width - 1; col += 1) {
+      const currCell = this.world.getCell(row, col).isAlive ? 1 : 0;
+      const nextCell = this.getNextCell(col, width, this.world, row);
+      if (currCell === nextCell) {
+        runCount += 1;
+      } else {
+        if (runCount === 1) {
+          strLen += 1;
+        } else {
+          this.rle += runCount;
+          strLen += 2;
+        }
+        this.rle += currCell === 1 ? "o" : "b";
+        runCount = 1;
+      }
+    }
+    runCount = 1;
+    return { runCount, strLen };
+  }
+
+  private initMetaOfRLE(): {
+    height: number;
+    width: number;
+    runCount: number;
+    strLen: number;
+    newlineCount: number;
+  } {
+    this.rle = "";
+    const height = this.world.getHeight();
+    const width = this.world.getWidth();
     let runCount = 1;
     let newlineCount = 1;
     let strLen = 1;
-
-    s += `x = ${width - 2}, y = ${height - 2}\n`;
-
-    for (let row = 1; row < height - 1; row++) {
-      for (let col = 1; col < width - 1; col++) {
-        const currCell = currWorld.getCell(row, col).isAlive ? 1 : 0;
-        const nextCell = this.getNextCell(col, width, currWorld, row);
-        if (currCell === nextCell) {
-          runCount++;
-        } else {
-          if (runCount === 1) {
-            strLen += 1;
-          } else {
-            s += runCount;
-            strLen += 2;
-          }
-          s += currCell === 1 ? "o" : "b";
-          runCount = 1;
-        }
-      }
-      runCount = 1;
-
-      const nextRowEmpty = this.isRowAllDead(row + 1, width, currWorld);
-
-      if (nextRowEmpty) {
-        newlineCount++;
-      } else {
-        if (strLen > 70) {
-          s += "\n";
-          strLen = 1;
-        }
-
-        if (newlineCount === 1) {
-          s += "$";
-          strLen++;
-        } else {
-          s += newlineCount + "$";
-          strLen += 2;
-        }
-        strLen++;
-        newlineCount = 1;
-      }
-    }
-    s += "!";
-    return s;
+    this.rle += `x = ${width - 2}, y = ${height - 2}\n`;
+    return { height, width, runCount, strLen, newlineCount };
   }
 
   private isRowAllDead(row: number, width: number, currWorld: World): boolean {
@@ -124,48 +165,53 @@ export class GameOfLife {
   }
 
   private decodeRLE(patternString: string): void {
-    let currIndex = 0;
-    let runCount = 0;
-
-    let row = 1;
-    let col = 1;
+    let currIndex = 0,
+      runCount = 0,
+      row = 1,
+      col = 1;
 
     while (patternString.charAt(currIndex) !== "!") {
       const char = patternString.charAt(currIndex);
 
-      if (char === "$") {
-        if (runCount === 0) {
-          row++;
-          col = 1;
-        } else {
-          while (runCount != 0) {
+      switch (char) {
+        case "$":
+          if (runCount === 0) {
             row++;
             col = 1;
-            runCount--;
+          } else {
+            while (runCount != 0) {
+              row++;
+              col = 1;
+              runCount--;
+            }
           }
-        }
-      } else if (char === "b") {
-        if (runCount === 0) {
-          col++;
-        } else {
-          while (runCount != 0) {
+          break;
+        case "b":
+          if (runCount === 0) {
             col++;
-            runCount--;
+          } else {
+            while (runCount != 0) {
+              col++;
+              runCount--;
+            }
           }
-        }
-      } else if (char === "o") {
-        if (runCount === 0) {
-          this.world.addCell(row, col);
-          col++;
-        } else {
-          while (runCount != 0) {
+          break;
+        case "o":
+          if (runCount === 0) {
             this.world.addCell(row, col);
             col++;
-            runCount--;
+          } else {
+            while (runCount != 0) {
+              this.world.addCell(row, col);
+              col++;
+              runCount--;
+            }
           }
-        }
-      } else {
-        runCount = 10 * runCount + Number(char);
+          break;
+
+        default:
+          runCount = 10 * runCount + Number(char);
+          break;
       }
 
       currIndex++;
