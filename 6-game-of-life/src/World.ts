@@ -96,8 +96,8 @@ export class World {
 
   public getNumOfAliveCell(): number {
     let liveNeighbors = 0;
-    for (let row = 0; row < this.height; row++) {
-      for (let col = 0; col < this.width; col++) {
+    for (let row = 0; row < this.getHeight(); row++) {
+      for (let col = 0; col < this.getWidth(); col++) {
         if (this.cells[row][col].isAlive) {
           liveNeighbors++;
         }

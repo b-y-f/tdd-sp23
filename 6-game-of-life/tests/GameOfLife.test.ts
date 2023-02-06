@@ -144,7 +144,8 @@ o4bo$o4bobo4bo$o4bobo4bo2$2b3o3b3o!`;
     expect(game.getWorld().getNumOfAliveCell()).toBe(48);
   });
 
-  it("Pulsar evolve 1 time, the number of alive cell should be", () => {
+  it("Pulsar evolve 1 time, the number of alive cell should be 56", () => {
+    // FIX the evolve function got problem
     game.iterEvolve(1);
     expect(game.getWorld().getNumOfAliveCell()).toBe(56);
   });
