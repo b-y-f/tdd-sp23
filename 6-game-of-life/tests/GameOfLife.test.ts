@@ -59,8 +59,6 @@ describe("Test after evolve some evolve", () => {
 
   beforeEach(() => {
     game = new GameOfLife();
-  });
-  it("Gilder should be able to keep same shape after 1 evolve", () => {
     const patString = `#N Glider
 #O Richard K. Guy
 #C The smallest, most common, and first discovered spaceship. Diagonal, has period 4 and speed c/4.
@@ -68,8 +66,19 @@ describe("Test after evolve some evolve", () => {
 x = 3, y = 3, rule = B3/S23
 bob$2bo$3o!`;
     game.fromRLE(patString);
-
+  });
+  it("Gilder should be able to keep same shape after 1 evolve", () => {
     game.iterEvolve(1);
+    expect(game.getWorld().getNumOfAliveCell()).toBe(5);
+  });
+
+  it("Gilder should able to keep same shape after 3 evolves", () => {
+    game.iterEvolve(3);
+    expect(game.getWorld().getNumOfAliveCell()).toBe(5);
+  });
+
+  it("Gilder should able to keep same shape after 10 evolves", () => {
+    game.iterEvolve(10);
     expect(game.getWorld().getNumOfAliveCell()).toBe(5);
   });
 });
