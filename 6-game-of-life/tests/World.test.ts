@@ -71,3 +71,35 @@ describe("Evolve tests", () => {
     expect(state).toBe(false);
   });
 });
+
+describe("test number of neighbor for gilder after mock a pattern from rle file", () => {
+  let world;
+  beforeEach(() => {
+    world = new World(5, 5);
+    world.addCell(1, 2);
+    world.addCell(2, 3);
+    world.addCell(3, 1);
+    world.addCell(3, 2);
+    world.addCell(3, 3);
+  });
+
+  it("test neighbor of (1,2)", () => {
+    expect(world.getAliveNeighbors(1, 2)).toBe(1);
+  });
+
+  it("test neighbor of (2,3)", () => {
+    expect(world.getAliveNeighbors(2, 3)).toBe(3);
+  });
+
+  it("test neighbor of (3,1)", () => {
+    expect(world.getAliveNeighbors(3, 1)).toBe(1);
+  });
+
+  it("test neighbor of (3,2)", () => {
+    expect(world.getAliveNeighbors(3, 2)).toBe(3);
+  });
+
+  it("test neighbor of (3,3)", () => {
+    expect(world.getAliveNeighbors(3, 3)).toBe(2);
+  });
+});
