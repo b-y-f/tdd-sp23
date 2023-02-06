@@ -92,6 +92,9 @@ describe("It should be able to correctly output world of cells to RLE string", (
   let game;
   beforeEach(() => {
     game = new GameOfLife();
+  });
+
+  it("Test block pattern", () => {
     const blockString = `#N Block
 #C An extremely common 4-cell still life.
 #C www.conwaylife.com/wiki/index.php?title=Block
@@ -99,12 +102,24 @@ x = 2, y = 2, rule = B3/S23
 2o$2o!`;
 
     game.fromRLE(blockString);
-  });
-
-  it("Test block pattern", () => {
     game.iterEvolve(10);
     const rle = game.toRLE();
     expect(rle).toEqual(`x = 2, y = 2
 2o$2o!`);
+  });
+
+  it("Test gilder after 10 evolve", () => {
+    const gilder = `#N Glider
+#O Richard K. Guy
+#C The smallest, most common, and first discovered spaceship. Diagonal, has period 4 and speed c/4.
+#C www.conwaylife.com/wiki/index.php?title=Glider
+x = 3, y = 3, rule = B3/S23
+bob$2bo$3o!`;
+
+    game.fromRLE(gilder);
+    game.iterEvolve(10);
+    const rle = game.toRLE();
+    expect(rle).toEqual(`x = 3, y = 3
+2bo$obo$b2o!`);
   });
 });
