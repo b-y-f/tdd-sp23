@@ -15,7 +15,7 @@ export class World {
   constructor(width: number, height: number) {
     this.width = width;
     this.height = height;
-    this.initCells(height, width);
+    this.cells = this.initCells(height, width);
   }
 
   public getCell(row: number, col: number): Cell {
@@ -51,6 +51,37 @@ export class World {
       }
     }
     this.cells = nextGen;
+
+    // resize after each evolve to fit the new pattern
+  }
+
+  public resize(): void {
+    const rows = [];
+    const cols = [];
+
+    for (let i = 0; i < this.cells.length; i++) {
+      for (let j = 0; j < this.cells[0].length; j++) {
+        if (this.cells[i][j].isAlive) {
+          rows.push(i);
+          cols.push(j);
+        }
+      }
+    }
+
+    const minRow = Math.min(...rows);
+    const maxRow = Math.max(...rows);
+    const minCol = Math.min(...cols);
+    const maxCol = Math.max(...cols);
+    const newCells = this.initCells(maxRow - minRow + 3, maxCol - minCol + 3);
+
+    // migrate old cells
+    for (let row = 1; row < newCells.length - 1; row++) {
+      for (let col = 1; col < newCells[0].length - 1; col++) {
+        newCells[row][col] = this.cells[row - 1 + minRow][col - 1 + minCol];
+      }
+    }
+
+    this.cells = newCells;
   }
 
   public addCell(row: number, col: number): void {
@@ -89,18 +120,19 @@ export class World {
     return cnt;
   }
 
-  private initCells(height: number, width: number) {
-    this.cells = [];
+  private initCells(height: number, width: number): Cell[][] {
+    const newCells = [];
     for (let row = 0; row < height; row++) {
-      this.cells[row] = [];
+      newCells[row] = [];
       for (let col = 0; col < width; col++) {
         const initCell: Cell = {
           x: col,
           y: row,
           isAlive: false,
         };
-        this.cells[row][col] = initCell;
+        newCells[row][col] = initCell;
       }
     }
+    return newCells;
   }
 }
