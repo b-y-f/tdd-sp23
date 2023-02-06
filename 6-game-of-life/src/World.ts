@@ -62,6 +62,29 @@ export class World {
   }
 
   public resize(): void {
+    const { newCells, minRow, minCol } = this.createNewSizeCells();
+    this.migrateOldCells(newCells, minRow, minCol);
+  }
+
+  private migrateOldCells(
+    newCells: Cell[][],
+    minRow: number,
+    minCol: number
+  ): void {
+    for (let row = 1; row < newCells.length - 1; row++) {
+      for (let col = 1; col < newCells[0].length - 1; col++) {
+        newCells[row][col] = this.cells[row - 1 + minRow][col - 1 + minCol];
+      }
+    }
+
+    this.cells = newCells;
+  }
+
+  private createNewSizeCells(): {
+    newCells: Cell[][];
+    minRow: number;
+    minCol: number;
+  } {
     const rows = [];
     const cols = [];
 
@@ -79,15 +102,7 @@ export class World {
     const minCol = Math.min(...cols);
     const maxCol = Math.max(...cols);
     const newCells = this.initCells(maxRow - minRow + 3, maxCol - minCol + 3);
-
-    // migrate old cells
-    for (let row = 1; row < newCells.length - 1; row++) {
-      for (let col = 1; col < newCells[0].length - 1; col++) {
-        newCells[row][col] = this.cells[row - 1 + minRow][col - 1 + minCol];
-      }
-    }
-
-    this.cells = newCells;
+    return { newCells, minRow, minCol };
   }
 
   public addCell(row: number, col: number): void {

@@ -73,7 +73,7 @@ export class GameOfLife {
     }
   }
 
-  private initWorld(input: string) {
+  private initWorld(input: string): void {
     const lines = input.split("\n");
     const noCommentLines = lines.filter((line) => !line.includes("#"));
     const firstLine = noCommentLines[0].split(",");
