@@ -160,7 +160,14 @@ $2bobobobobobo$3o2b2ob2o2b3o2$4b2o3b2o$4bo5bo$4bo5bo!`);
 
   it("Pulsar evlove 2 times, the alive cell should match 18x4", () => {
     game.iterEvolve(2);
-    expect(game.getNumOfAliveCell()).toBe(18 * 4);
+    expect(game.getWorld().getNumOfAliveCell()).toBe(18 * 4);
+  });
+
+  it("Pulsar evlove 2 times, rle should match given string", () => {
+    game.iterEvolve(2);
+    expect(game.toRLE()).toBe(`x = 13, y = 13
+2b2o5b2o$3b2o3b2o$o2bobobobo2bo$3ob2ob2ob3o$bobobobobobo$2b3o3b3o2$2b
+3o3b3o$bobobobobobo$3ob2ob2ob3o$o2bobobobo2bo$3b2o3b2o$2b2o5b2o!`);
   });
 });
 
