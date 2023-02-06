@@ -157,6 +157,11 @@ o4bo$o4bobo4bo$o4bobo4bo2$2b3o3b3o!`;
 4bo5bo$4bo5bo$4b2o3b2o2$3o2b2ob2o2b3o$2bobobobobobo$4b2o3b2o2$4b2o3b2o
 $2bobobobobobo$3o2b2ob2o2b3o2$4b2o3b2o$4bo5bo$4bo5bo!`);
   });
+
+  it("Pulsar evlove 2 times, the alive cell should match 18x4", () => {
+    game.iterEvolve(2);
+    expect(game.getNumOfAliveCell()).toBe(18 * 4);
+  });
 });
 
 // describe("Random Pick Some Complexed Pattern", () => {
