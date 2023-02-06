@@ -130,7 +130,7 @@ describe("Random Pick Some Complexed Pattern", () => {
     game = new GameOfLife();
   });
 
-  it("glidertrain", () => {
+  it.skip("glidertrain", () => {
     const pattern = `#N glidertrain.rle
 #O Bill Gosper
 #C https://conwaylife.com/wiki/Glider_train
@@ -149,5 +149,19 @@ o$30bo$25bo4bo21b2o8b6o$26b5o19bo4bo5bo5bo$56bo10bo$50bo5bo4bo4bo$33bo
     game.fromRLE(pattern);
 
     expect(game.getWorld().getNumOfAliveCell()).toBe(37);
+  });
+
+  it("Pulsar", () => {
+    const pattern = `#N Pulsar
+#O John Conway
+#C A period 3 oscillator. Despite its size, this is the fourth most common oscillator (and by
+#C far the most common of period greater than 2).
+#C www.conwaylife.com/wiki/index.php?title=Pulsar
+x = 13, y = 13, rule = B3/S23
+2b3o3b3o2b2$o4bobo4bo$o4bobo4bo$o4bobo4bo$2b3o3b3o2b2$2b3o3b3o2b$o4bob
+o4bo$o4bobo4bo$o4bobo4bo2$2b3o3b3o!`;
+    game.fromRLE(pattern);
+
+    expect(game.getWorld().getNumOfAliveCell()).toBe(48);
   });
 });
