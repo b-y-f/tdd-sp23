@@ -22,6 +22,16 @@ export class GameOfLife {
     this.initWorld(input);
   }
 
+  /**
+   * call evolve function in world n times
+   * @param n this is number of iteration
+   */
+  public iterEvolve(n: number): void {
+    for (let i = 0; i < n; i++) {
+      this.world.evolve();
+    }
+  }
+
   private initWorld(input: string) {
     const lines = input.split("\n");
     const noCommentLines = lines.filter((line) => !line.includes("#"));
