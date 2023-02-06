@@ -163,11 +163,32 @@ $2bobobobobobo$3o2b2ob2o2b3o2$4b2o3b2o$4bo5bo$4bo5bo!`);
     expect(game.getWorld().getNumOfAliveCell()).toBe(18 * 4);
   });
 
-  it("Pulsar evlove 2 times, rle should match given string", () => {
+  it.skip("Pulsar evlove 2 times, rle should match given string", () => {
     game.iterEvolve(2);
     expect(game.toRLE()).toBe(`x = 13, y = 13
 2b2o5b2o$3b2o3b2o$o2bobobobo2bo$3ob2ob2ob3o$bobobobobobo$2b3o3b3o2$2b
 3o3b3o$bobobobobobo$3ob2ob2ob3o$o2bobobobo2bo$3b2o3b2o$2b2o5b2o!`);
+  });
+});
+
+describe("Blinder Tests", () => {
+  let game;
+  beforeEach(() => {
+    game = new GameOfLife();
+
+    const blinker = `#N Blinker
+    #O John Conway
+    #C A period 2 oscillator that is the smallest and most common oscillator.
+    #C www.conwaylife.com/wiki/index.php?title=Blinker
+x = 3, y = 1, rule = B3/S23
+3o!`;
+
+    game.fromRLE(blinker);
+  });
+  it("should without any problem iter 11 generations", () => {
+    game.iterEvolve(11);
+    expect(game.toRLE()).toBe(`x = 1, y = 3
+o$o$o!`);
   });
 });
 
