@@ -22,6 +22,14 @@ export class World {
     return this.cells[row][col];
   }
 
+  public getWidth(): number {
+    return this.cells[0].length;
+  }
+
+  public getHeight(): number {
+    return this.cells.length;
+  }
+
   private deepCopy(arr: any[][]): any[][] {
     return JSON.parse(JSON.stringify(arr));
   }
