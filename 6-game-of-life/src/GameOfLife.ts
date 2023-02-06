@@ -80,9 +80,9 @@ export class GameOfLife {
     const [width, height] = firstLine
       .slice(0, 2)
       .map((e) => Number(e.match(/\d+/)));
-    const patternLine = noCommentLines[1];
+    const patternLines = noCommentLines.slice(1);
     this.world = new World(width + 2, height + 2);
-    this.decodeRLE(patternLine);
+    this.decodeRLE(patternLines.join(""));
   }
 
   private decodeRLE(patternString: string): void {
@@ -96,8 +96,16 @@ export class GameOfLife {
       const char = patternString.charAt(currIndex);
 
       if (char === "$") {
-        row++;
-        col = 1;
+        if (runCount === 0) {
+          row++;
+          col = 1;
+        } else {
+          while (runCount != 0) {
+            row++;
+            col = 1;
+            runCount--;
+          }
+        }
       } else if (char === "b") {
         if (runCount === 0) {
           col++;
