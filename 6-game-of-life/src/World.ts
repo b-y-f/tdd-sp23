@@ -34,18 +34,13 @@ export class World {
   }
 
   private deepCopy(arr: any[][]): any[][] {
-    const newArray = [];
-    for (let i = 0; i < arr.length; i++) {
-      newArray[i] = [];
-      for (let j = 0; j < arr[i].length; j++) {
-        newArray[i][j] = arr[i][j];
-      }
-    }
-    return newArray;
+    return JSON.parse(JSON.stringify(arr));
   }
 
   /**
    * When come with "b" and "o" from RLE: b=DEAD, o=ALIVE
+   * This function will create a new World with bigger size than
+   * the previews one if needed.
    */
   public evolve(): void {
     const nextGen = this.deepCopy(this.cells);
@@ -56,6 +51,8 @@ export class World {
         if (this.cells[row][col].isAlive) {
           if (aliveNeighbors === 2 || aliveNeighbors === 3) {
             nextGen[row][col].isAlive = true;
+          } else {
+            nextGen[row][col].isAlive = false;
           }
         } else {
           if (aliveNeighbors === 3) {
