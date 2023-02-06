@@ -39,7 +39,7 @@ export class GameOfLife {
         if (currCell === nextCell) {
           runCount++;
         } else {
-          s += runCount + (currCell === 1 ? "o" : "b");
+          s += (runCount === 1 ? "" : runCount) + (currCell === 1 ? "o" : "b");
           runCount = 1;
         }
       }
