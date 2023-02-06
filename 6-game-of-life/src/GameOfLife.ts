@@ -29,6 +29,8 @@ export class GameOfLife {
     const height = currWorld.getHeight();
     const width = currWorld.getWidth();
     let runCount = 1;
+    let newlineCount = 1;
+    let strLen = 1;
 
     s += `x = ${width - 2}, y = ${height - 2}\n`;
 
@@ -39,14 +41,50 @@ export class GameOfLife {
         if (currCell === nextCell) {
           runCount++;
         } else {
-          s += (runCount === 1 ? "" : runCount) + (currCell === 1 ? "o" : "b");
+          if (runCount === 1) {
+            strLen += 1;
+          } else {
+            s += runCount;
+            strLen += 2;
+          }
+          s += currCell === 1 ? "o" : "b";
           runCount = 1;
         }
       }
-      s += "$";
+      runCount = 1;
+
+      const nextRowEmpty = this.isRowAllDead(row + 1, width, currWorld);
+
+      if (nextRowEmpty) {
+        newlineCount++;
+      } else {
+        if (strLen > 70) {
+          s += "\n";
+          strLen = 1;
+        }
+
+        if (newlineCount === 1) {
+          s += "$";
+          strLen++;
+        } else {
+          s += newlineCount + "$";
+          strLen += 2;
+        }
+        strLen++;
+        newlineCount = 1;
+      }
     }
-    s = s.slice(0, -1) + "!";
+    s += "!";
     return s;
+  }
+
+  private isRowAllDead(row: number, width: number, currWorld: World): boolean {
+    for (let col = 1; col < width - 1; col++) {
+      if (currWorld.getCell(row, col).isAlive) {
+        return false;
+      }
+    }
+    return true;
   }
 
   private getNextCell(

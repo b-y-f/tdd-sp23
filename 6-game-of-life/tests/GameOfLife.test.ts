@@ -150,7 +150,7 @@ o4bo$o4bobo4bo$o4bobo4bo2$2b3o3b3o!`;
     expect(game.getWorld().getNumOfAliveCell()).toBe(56);
   });
 
-  it.skip("Pulsar evlove 1 times, the string pattern", () => {
+  it("Pulsar evlove 1 times, the string pattern", () => {
     const pattern = `#N Pulsar
 #O John Conway
 #C A period 3 oscillator. Despite its size, this is the fourth most common oscillator (and by
