@@ -29,6 +29,7 @@ export class GameOfLife {
   public iterEvolve(n: number): void {
     for (let i = 0; i < n; i++) {
       this.world.evolve();
+      this.world.resize();
     }
   }
 

@@ -51,8 +51,6 @@ export class World {
       }
     }
     this.cells = nextGen;
-
-    // resize after each evolve to fit the new pattern
   }
 
   public resize(): void {
