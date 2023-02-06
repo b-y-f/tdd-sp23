@@ -1,3 +1,4 @@
+/* eslint-disable jest/no-disabled-tests */
 import { World } from "../src/World";
 
 describe("Test world, cell and neighbor cells", () => {
@@ -101,5 +102,19 @@ describe("test number of neighbor for gilder after mock a pattern from rle file"
 
   it("test neighbor of (3,3)", () => {
     expect(world.getAliveNeighbors(3, 3)).toBe(2);
+  });
+});
+
+describe("The world need to be able to resize after evolve", () => {
+  it("Test resize method with 3x3 world and simple pattern", () => {
+    const world = new World(3, 3);
+    world.addCell(2, 1);
+    world.addCell(2, 2);
+    world.resize();
+
+    expect(world.getCell(1, 1).isAlive).toBe(true);
+    expect(world.getCell(1, 2).isAlive).toBe(true);
+
+    expect(world.getNumOfAliveCell()).toBe(2);
   });
 });
