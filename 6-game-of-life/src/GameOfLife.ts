@@ -1,4 +1,4 @@
-import { Cell, World } from "./World";
+import { World } from "./World";
 
 /**
  * this class is UI of this command line RLE to shape program,
@@ -35,12 +35,7 @@ export class GameOfLife {
     for (let row = 1; row < height - 1; row++) {
       for (let col = 1; col < width - 1; col++) {
         const currCell = currWorld.getCell(row, col).isAlive ? 1 : 0;
-        const nextCell =
-          col + 1 < width
-            ? currWorld.getCell(row, col + 1).isAlive
-              ? 1
-              : 0
-            : -1;
+        const nextCell = this.getNextCell(col, width, currWorld, row);
         if (currCell === nextCell) {
           runCount++;
         } else {
@@ -52,6 +47,19 @@ export class GameOfLife {
     }
     s = s.slice(0, -1) + "!";
     return s;
+  }
+
+  private getNextCell(
+    col: number,
+    width: number,
+    currWorld: World,
+    row: number
+  ): number {
+    return col + 1 < width
+      ? currWorld.getCell(row, col + 1).isAlive
+        ? 1
+        : 0
+      : -1;
   }
 
   /**
