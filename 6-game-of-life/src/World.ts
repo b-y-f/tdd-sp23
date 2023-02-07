@@ -73,7 +73,12 @@ export class World {
   ): void {
     for (let row = 1; row < newCells.length - 1; row++) {
       for (let col = 1; col < newCells[0].length - 1; col++) {
-        newCells[row][col] = this.cells[row - 1 + minRow][col - 1 + minCol];
+        const oldCell = this.cells[row - 1 + minRow][col - 1 + minCol];
+        if (oldCell.isAlive) {
+          newCells[row][col].isAlive = true;
+        } else {
+          newCells[row][col].isAlive = false;
+        }
       }
     }
 
