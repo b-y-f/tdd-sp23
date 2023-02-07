@@ -219,22 +219,56 @@ describe("Random Pick Some Complexed Pattern", () => {
     expect(game.toRLE()).toBe(`x = 4, y = 7
 2b2o$3bo$o$2o2$4o$o2bo!`);
   });
-
-  // it("glidertrain", () => {
-  //   const pattern = `#N glidertrain.rle
-  // #O Bill Gosper
-  // #C https://conwaylife.com/wiki/Glider_train
-  // #C https://www.conwaylife.com/patterns/glidertrain.rle
-  // x = 68, y = 33, rule = B3/S23
-  // 32b2o$31b2o$33bo17b6o6b2o$50bo5bo4bo4bo$56bo10bo$26b5o19bo4bo5bo5bo$
-  // 25bo4bo21b2o8b6o$30bo$18b2o5bo3bo23bo$18b2o7bo24bobo$14b3o4bo29bo5bo$
-  // 13bob2o5b2o11b2o15bobobobo6bo$b2o9b2obobo3b2o11bo2bo13b2o2bo3bo5b2o$o
-  // 2bo9b6o9b2o4bobo7b2o5b2o3b2obo4bob2o$b2o11b4o10b2o5bo8b2o7bo5bo4bobo$
-  // 50bobo11b2o2$50bobo11b2o$b2o11b4o10b2o5bo8b2o7bo5bo4bobo$o2bo9b6o9b2o
-  // 4bobo7b2o5b2o3b2obo4bob2o$b2o9b2obobo3b2o11bo2bo13b2o2bo3bo5b2o$13bob
-  // 2o5b2o11b2o15bobobobo6bo$14b3o4bo29bo5bo$18b2o7bo24bobo$18b2o5bo3bo23b
-  // o$30bo$25bo4bo21b2o8b6o$26b5o19bo4bo5bo5bo$56bo10bo$50bo5bo4bo4bo$33bo
-  // 17b6o6b2o$31b2o$32b2o!
-  // `;
-  // });
 });
+
+describe("Test gilder train", () => {
+  let game;
+  beforeEach(() => {
+    game = new GameOfLife();
+    const pattern = `#N glidertrain.rle
+  #O Bill Gosper
+  #C https://conwaylife.com/wiki/Glider_train
+  #C https://www.conwaylife.com/patterns/glidertrain.rle
+  x = 68, y = 33, rule = B3/S23
+  32b2o$31b2o$33bo17b6o6b2o$50bo5bo4bo4bo$56bo10bo$26b5o19bo4bo5bo5bo$
+  25bo4bo21b2o8b6o$30bo$18b2o5bo3bo23bo$18b2o7bo24bobo$14b3o4bo29bo5bo$
+  13bob2o5b2o11b2o15bobobobo6bo$b2o9b2obobo3b2o11bo2bo13b2o2bo3bo5b2o$o
+  2bo9b6o9b2o4bobo7b2o5b2o3b2obo4bob2o$b2o11b4o10b2o5bo8b2o7bo5bo4bobo$
+  50bobo11b2o2$50bobo11b2o$b2o11b4o10b2o5bo8b2o7bo5bo4bobo$o2bo9b6o9b2o
+  4bobo7b2o5b2o3b2obo4bob2o$b2o9b2obobo3b2o11bo2bo13b2o2bo3bo5b2o$13bob
+  2o5b2o11b2o15bobobobo6bo$14b3o4bo29bo5bo$18b2o7bo24bobo$18b2o5bo3bo23b
+  o$30bo$25bo4bo21b2o8b6o$26b5o19bo4bo5bo5bo$56bo10bo$50bo5bo4bo4bo$33bo
+  17b6o6b2o$31b2o$32b2o!`;
+
+    game.fromRLE(pattern);
+  });
+  it("glidertrain iter 1 gen, test number of alive cells", () => {
+    expect(game.getWorld().getNumOfAliveCell()).toBe(248);
+    game.iterEvolve(1);
+    expect(game.getWorld().getNumOfAliveCell()).toBe(278);
+  });
+
+  it("gilder train iter 123 gen, test alive cells", () => {
+    game.iterEvolve(123);
+    expect(game.getWorld().getNumOfAliveCell()).toBe(322);
+  });
+
+  it("gilder train iter 123 gen, test rle string", () => {
+    game.iterEvolve(123);
+    expect(game.toRLE()).toBe(`x = 129, y = 95
+2o$obo$o6$24b2o$24bobo$24bo6$48b2o$48bobo$48bo6$72b2o$72bobo$72bo6$96b
+2o$96bobo16b2o$96bo14b4ob2o5b4o$37b2obo70b6o5b6o$89b2o21b4o6b4ob2o$86b
+3ob2o34b2o$38bob2o44b5o$38b2o47b3o$81b2o33bo$80bo2bo32b2o5b3o$83bo15b
+o14bo2bo3b2o$64b2o12b2o5b2o11b2o12b3o6bo4b2o$19b2o30b2o10bo2bo8b3o7b2o
+4b2o4b3o7b2o4b2o5b2ob2o2bo$19b2o30b2o11b2o9b2o2bobo9b2o14b2o5bobo10bo
+$80bo35bo7b3o2$80bo35bo7b3o$19b2o30b2o11b2o9b2o2bobo9b2o14b2o5bobo10b
+o$19b2o30b2o10bo2bo8b3o7b2o4b2o4b3o7b2o4b2o5b2ob2o2bo$64b2o12b2o5b2o11b
+2o12b3o6bo4b2o$83bo15bo14bo2bo3b2o$80bo2bo32b2o5b3o$81b2o33bo$38b2o47b
+3o$38bob2o44b5o$86b3ob2o34b2o$89b2o21b4o6b4ob2o$37b2obo70b6o5b6o$96bo
+14b4ob2o5b4o$96bobo16b2o$96b2o6$72bo$72bobo$72b2o6$48bo$48bobo$48b2o6$
+24bo$24bobo$24b2o6$o$obo$2o!`);
+  });
+});
+
+// 2o$obo$o6$24b2o$24bobo$24bo6$48b2o$48bobo$48bo6$72b2o$72bobo$72bo6$96b
+// 2o$obo$o6$24b2o$24bobo$24bo6$48b2o$48bobo$48bo6$72b2o$72bobo$72bo6$96b2o
