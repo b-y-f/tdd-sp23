@@ -136,7 +136,7 @@ export class World {
 
         const r = row + i;
         const c = col + j;
-        if (r >= 0 && r < this.height && c >= 0 && c < this.width) {
+        if (r >= 0 && r < this.getHeight() && c >= 0 && c < this.getWidth()) {
           if (this.cells[r][c].isAlive) {
             cnt++;
           }

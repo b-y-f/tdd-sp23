@@ -7,9 +7,12 @@ import { World } from "./World";
  */
 export class GameOfLife {
   private LINE_LIMIT = 70;
+  private currGeneration;
   private world: World;
   private rle: string;
-  constructor() {}
+  constructor() {
+    this.currGeneration = 0;
+  }
 
   public getWorld(): World {
     return this.world;
@@ -149,6 +152,7 @@ export class GameOfLife {
     for (let i = 0; i < n; i++) {
       this.world.evolve();
       this.world.resize();
+      this.currGeneration++;
     }
   }
 
