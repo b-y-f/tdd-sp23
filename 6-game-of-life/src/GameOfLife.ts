@@ -27,64 +27,55 @@ export class GameOfLife {
     this.initWorld(input);
   }
 
+  /**
+   * Should be make it accept parameter, then it would be easier to
+   * unit test it with var.
+   * @returns encoded world to RLE string
+   */
   public toRLE(): string {
-    var { height, width, runCount, strLen, newlineCount } =
-      this.initMetaOfRLE();
+    var { height, width, runCount, newlineCount } = this.initMetaOfRLE();
 
     for (let row = 1; row < height - 1; row += 1) {
-      ({ runCount, strLen } = this.encodeCells(width, row, runCount, strLen));
-
-      ({ newlineCount, strLen } = this.encodeNewLines(
-        row,
-        width,
-        newlineCount,
-        strLen
-      ));
+      runCount = this.encodeCells(width, row, runCount);
+      newlineCount = this.encodeNewLines(row, width, newlineCount);
     }
     this.rle += "!";
-    return this.rle;
+
+    return this.splitString(this.rle, this.LINE_LIMIT);
+  }
+
+  /**
+   * helper function to make split line not so headache..
+   * @param str
+   * @param size
+   * @returns string that split new line by LINE_LIMIT
+   */
+  private splitString(str: string, size: number): string {
+    const chunks = str.match(new RegExp(".{1," + size + "}", "g"));
+    return chunks.join("\n");
   }
 
   private encodeNewLines(
     row: number,
     width: number,
-    newlineCount: number,
-    strLen: number
-  ): {
-    newlineCount: number;
-    strLen: number;
-  } {
+    newlineCount: number
+  ): number {
     const nextRowEmpty = this.isRowAllDead(row + 1, width, this.world);
+
     if (nextRowEmpty) {
       newlineCount += 1;
     } else {
-      if (strLen > this.LINE_LIMIT) {
-        this.rle += "\n";
-        strLen = 1;
-      }
-
       if (newlineCount === 1) {
         this.rle += "$";
-        strLen++;
       } else {
         this.rle += newlineCount + "$";
-        strLen += 2;
       }
-      strLen++;
       newlineCount = 1;
     }
-    return { newlineCount, strLen };
+    return newlineCount;
   }
 
-  private encodeCells(
-    width: number,
-    row: number,
-    runCount: number,
-    strLen: number
-  ): {
-    runCount: number;
-    strLen: number;
-  } {
+  private encodeCells(width: number, row: number, runCount: number): number {
     for (let col = 1; col < width - 1; col += 1) {
       const currCell = this.world.getCell(row, col).isAlive ? 1 : 0;
       const nextCell = this.getNextCell(col, width, this.world, row);
@@ -92,24 +83,22 @@ export class GameOfLife {
         runCount += 1;
       } else {
         if (runCount === 1) {
-          strLen += 1;
+          /* empty */
         } else {
           this.rle += runCount;
-          strLen += 2;
         }
         this.rle += currCell === 1 ? "o" : "b";
         runCount = 1;
       }
     }
     runCount = 1;
-    return { runCount, strLen };
+    return runCount;
   }
 
   private initMetaOfRLE(): {
     height: number;
     width: number;
     runCount: number;
-    strLen: number;
     newlineCount: number;
   } {
     this.rle = "";
@@ -117,9 +106,8 @@ export class GameOfLife {
     const width = this.world.getWidth();
     let runCount = 1;
     let newlineCount = 1;
-    let strLen = 1;
     this.rle += `x = ${width - 2}, y = ${height - 2}\n`;
-    return { height, width, runCount, strLen, newlineCount };
+    return { height, width, runCount, newlineCount };
   }
 
   private isRowAllDead(row: number, width: number, currWorld: World): boolean {
