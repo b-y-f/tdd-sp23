@@ -1,0 +1,20 @@
+{
+    "env":{
+      "node": true
+    },
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "jest",
+      "@typescript-eslint",
+      "prettier"
+    ],
+    "extends": [
+      "plugin:jest/recommended",
+      "eslint:recommended"
+    ],
+    "rules": {
+      "@typescript-eslint/explicit-module-boundary-types": "error",
+      "@typescript-eslint/explicit-function-return-type": "warn",
+      "prettier/prettier": "error"
+    }
+}
