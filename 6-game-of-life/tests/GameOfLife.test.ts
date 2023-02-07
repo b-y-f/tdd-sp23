@@ -219,6 +219,26 @@ describe("Random Pick Some Complexed Pattern", () => {
     expect(game.toRLE()).toBe(`x = 4, y = 7
 2b2o$3bo$o$2o2$4o$o2bo!`);
   });
+
+  it("p55 pre-pulsar hassler", () => {
+    const pattern = `#N p55 pre-pulsar hassler
+    #O David Buckingham
+    #C The first known period-55 oscillator
+    #C Discovered on January 26, 1986
+    #C https://www.conwaylife.com/wiki/p55_pre-pulsar_hassler
+x = 43, y = 27, rule = b3/s23
+8bo25bo8b$7bobo23bobo7b$8bo25bo8b$13bo15bo13b$6b5o2b3o11b3o2b5o6b$5bo
+4bo5bo9bo5bo4bo5b$4bo2bo7b2o9b2o7bo2bo4b$bo2bob2o27b2obo2bob$obobo5bo
+21bo5bobobo$bo2bo4bobo19bobo4bo2bob$4b2o2bo2bo6bo5bo6bo2bo2b2o4b$9b2o
+6b3o3b3o6b2o9b4$9b2o21b2o9b$4b2o2bo2bo19bo2bo2b2o4b$bo2bo4bobo19bobo4b
+o2bob$obobo5bo21bo5bobobo$bo2bob2o27b2obo2bob$4bo2bo27bo2bo4b$5bo4bo3b
+2o11b2o3bo4bo5b$6b5o4bo11bo4b5o6b$13bobobo7bobobo13b$8bo3bobob2o7b2obo
+bo3bo8b$7bobo2bobo13bobo2bobo7b$8bo4b2o13b2o4bo!`;
+
+    game.fromRLE(pattern);
+
+    expect(game.getWorld().getNumOfAliveCell()).toBe(136);
+  });
 });
 
 describe("Test gilder train", () => {
@@ -270,6 +290,3 @@ o$19b2o30b2o10bo2bo8b3o7b2o4b2o4b3o7b2o4b2o5b2ob2o2bo$64b2o12b2o5b2o11b
 24bo$24bobo$24b2o6$o$obo$2o!`);
   });
 });
-
-// 2o$obo$o6$24b2o$24bobo$24bo6$48b2o$48bobo$48bo6$72b2o$72bobo$72bo6$96b
-// 2o$obo$o6$24b2o$24bobo$24bo6$48b2o$48bobo$48bo6$72b2o$72bobo$72bo6$96b2o
