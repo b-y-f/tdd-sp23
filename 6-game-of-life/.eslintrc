@@ -1,13 +1,31 @@
 {
+<<<<<<< HEAD
     "parser": "@typescript-eslint/parser",
     "plugins": [
+=======
+    "env":{
+      "node": true
+    },
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "jest",
+>>>>>>> 4565f0b2854140aed1235cc1ef1cd13870045d55
       "@typescript-eslint",
       "prettier"
     ],
     "extends": [
+<<<<<<< HEAD
       "eslint:recommended"
     ],
     "rules": {
+=======
+      "plugin:jest/recommended",
+      "eslint:recommended"
+    ],
+    "rules": {
+      "@typescript-eslint/explicit-module-boundary-types": "error",
+      "@typescript-eslint/explicit-function-return-type": "warn",
+>>>>>>> 4565f0b2854140aed1235cc1ef1cd13870045d55
       "prettier/prettier": "error"
     }
 }

@@ -14,6 +14,10 @@ bin-release/
 *.apk
 *.DS_Store
 node_modules/
+<<<<<<< HEAD
+=======
+patterns/
+>>>>>>> 4565f0b2854140aed1235cc1ef1cd13870045d55
 
 # Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
 # should NOT be excluded as they contain compiler settings and other important
