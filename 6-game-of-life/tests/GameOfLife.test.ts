@@ -221,23 +221,29 @@ describe("Random Pick Some Complexed Pattern", () => {
   });
 
   it("p55 pre-pulsar hassler", () => {
+    // Should report they get wrong y=27 actually 25, LOL!!
+    // https://conwaylife.com/patterns/p55prepulsarhassler.rle
     const pattern = `#N p55 pre-pulsar hassler
-    #O David Buckingham
-    #C The first known period-55 oscillator
-    #C Discovered on January 26, 1986
-    #C https://www.conwaylife.com/wiki/p55_pre-pulsar_hassler
-x = 43, y = 27, rule = b3/s23
-8bo25bo8b$7bobo23bobo7b$8bo25bo8b$13bo15bo13b$6b5o2b3o11b3o2b5o6b$5bo
-4bo5bo9bo5bo4bo5b$4bo2bo7b2o9b2o7bo2bo4b$bo2bob2o27b2obo2bob$obobo5bo
-21bo5bobobo$bo2bo4bobo19bobo4bo2bob$4b2o2bo2bo6bo5bo6bo2bo2b2o4b$9b2o
-6b3o3b3o6b2o9b4$9b2o21b2o9b$4b2o2bo2bo19bo2bo2b2o4b$bo2bo4bobo19bobo4b
-o2bob$obobo5bo21bo5bobobo$bo2bob2o27b2obo2bob$4bo2bo27bo2bo4b$5bo4bo3b
-2o11b2o3bo4bo5b$6b5o4bo11bo4b5o6b$13bobobo7bobobo13b$8bo3bobob2o7b2obo
-bo3bo8b$7bobo2bobo13bobo2bobo7b$8bo4b2o13b2o4bo!`;
+x = 43, y = 25, rule = B3/S23
+8bo25bo$7bobo23bobo$8bo25bo$13bo15bo$6b5o2b3o11b3o2b5o$5bo4bo5bo9bo5bo
+4bo$4bo2bo7b2o9b2o7bo2bo$bo2bob2o27b2obo2bo$obobo5bo21bo5bobobo$bo2bo
+4bobo19bobo4bo2bo$4b2o2bo2bo6bo5bo6bo2bo2b2o$9b2o6b3o3b3o6b2o3$7b2o25b
+2o$7bo2bo21bo2bo$8b3o21b3o2$4b2obob2o21b2obob2o$4bob2obo23bob2obo$9bo
+23bo$9b2o3b2o11b2o3b2o$15bo11bo$12b3o13b3o$12bo17bo!`;
 
     game.fromRLE(pattern);
-
     expect(game.getWorld().getNumOfAliveCell()).toBe(136);
+
+    game.iterEvolve(5);
+
+    expect(game.getWorld().getNumOfAliveCell()).toBe(144);
+    expect(game.toRLE()).toBe(`x = 45, y = 27
+    $9bo25bo$8bobo23bobo$9bo25bo$14bo15bo$7b5o2b3o11b3o2b5o$6bo4bo5bo9bo5b
+    o4bo$5bo2bo7b2o9b2o7bo2bo$2bo2bob2o27b2obo2bo$bobobo5bo21bo5bobobo$2b
+    o2bo4bobo6bo5bo6bobo4bo2bo$5b2o2bo2bo5bobo3bobo5bo2bo2b2o$10b2o5bo3bo
+    bo3bo5b2o$18bobo3bobo$19bo5bo$8b2o25b2o$8bo2bo21bo2bo$9b3o21b3o2$5b2o
+    bob2o21b2obob2o$5bob2obo23bob2obo$10bo23bo$10b2o3b2o11b2o3b2o$16bo11b
+    o$13b3o13b3o$13bo17bo!`);
   });
 });
 
