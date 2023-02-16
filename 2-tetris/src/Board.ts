@@ -24,14 +24,39 @@ export class Board {
   }
 
   public hasFalling(): boolean {
-    return this.currentBlock === undefined;
+    return this.currentBlock !== undefined;
   }
   public tick(): void {
-    throw new Error("Method not implemented.");
+    if (this.hasFalling()) {
+      this.currentBlock?.moveDown();
+      for (let row = 0; row < this.height; row++) {
+        for (let col = 0; col < this.width; col++) {
+          if (
+            row === this.currentBlock?.getY() &&
+            col === this.currentBlock?.getX()
+          ) {
+            this.board[row][col] = 1;
+          } else {
+            this.board[row][col] = 0;
+          }
+        }
+      }
+    }
   }
   public drop(blk: Block): void {
     this.currentBlock = blk;
-    this.board[blk.getY()][blk.getX()] = 1;
+    for (let row = 0; row < this.height; row++) {
+      for (let col = 0; col < this.width; col++) {
+        if (
+          row === this.currentBlock.getY() &&
+          col === this.currentBlock.getX()
+        ) {
+          this.board[row][col] = 1;
+        } else {
+          this.board[row][col] = 0;
+        }
+      }
+    }
   }
 
   public toString(): string {
