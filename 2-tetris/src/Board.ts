@@ -24,32 +24,26 @@ export class Board {
   }
 
   public hasFalling(): boolean {
-    return this.currentBlock !== undefined;
+    return this.currentBlock === undefined;
   }
+
   public tick(): void {
-    if (this.hasFalling()) {
+    if (!this.hasFalling()) {
       this.currentBlock?.moveDown();
-      for (let row = 0; row < this.height; row++) {
-        for (let col = 0; col < this.width; col++) {
-          if (
-            row === this.currentBlock?.getY() &&
-            col === this.currentBlock?.getX()
-          ) {
-            this.board[row][col] = 1;
-          } else {
-            this.board[row][col] = 0;
-          }
-        }
-      }
+      this.updateBoard();
     }
   }
   public drop(blk: Block): void {
     this.currentBlock = blk;
+    this.updateBoard();
+  }
+
+  private updateBoard(): void {
     for (let row = 0; row < this.height; row++) {
       for (let col = 0; col < this.width; col++) {
         if (
-          row === this.currentBlock.getY() &&
-          col === this.currentBlock.getX()
+          row === this.currentBlock?.getY() &&
+          col === this.currentBlock?.getX()
         ) {
           this.board[row][col] = 1;
         } else {
