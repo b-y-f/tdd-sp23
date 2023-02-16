@@ -4,13 +4,15 @@ export class Board {
   private width: number;
   private height: number;
   private board: number[][];
+  private currentBlock: Block | undefined;
   constructor(width: number, height: number) {
+    this.currentBlock = undefined;
     this.width = width;
     this.height = height;
     this.board = this.createBoard(height, width);
   }
 
-  private createBoard(height: number, width: number) {
+  private createBoard(height: number, width: number): number[][] {
     const board: number[][] = [];
     for (let i = 0; i < height; i++) {
       board[i] = [];
@@ -22,14 +24,14 @@ export class Board {
   }
 
   public hasFalling(): boolean {
-    throw new Error("Method not implemented.");
+    return this.currentBlock === undefined;
   }
-  public tick() {
+  public tick(): void {
     throw new Error("Method not implemented.");
   }
   public drop(blk: Block): void {
-    const color = blk.getColor();
-    this.board[0][1] = color ? 1 : 0;
+    this.currentBlock = blk;
+    this.board[blk.getY()][blk.getX()] = 1;
   }
 
   public toString(): string {
