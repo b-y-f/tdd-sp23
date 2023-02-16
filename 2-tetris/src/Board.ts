@@ -24,16 +24,18 @@ export class Board {
   }
 
   public hasFalling(): boolean {
-    return this.currentBlock === undefined;
+    return this.currentBlock !== undefined;
   }
 
   public tick(): void {
-    if (!this.hasFalling()) {
-      this.currentBlock?.moveDown();
-      this.updateBoard();
-    }
+    this.currentBlock?.moveDown();
+    this.updateBoard();
   }
   public drop(blk: Block): void {
+    if (this.hasFalling()) {
+      throw new Error("already falling");
+    }
+
     this.currentBlock = blk;
     this.updateBoard();
   }
