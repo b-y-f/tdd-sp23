@@ -8,7 +8,8 @@
       "eslint:recommended"
     ],
     "rules": {
-      "prettier/prettier": "error"
+      "prettier/prettier": "error",
+      "@typescript-eslint/explicit-function-return-type": "error"
     },
     "env": {
       "mocha": true
