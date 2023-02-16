@@ -56,7 +56,7 @@ describe("Falling blocks", () => {
       board.tick();
     });
 
-    xit("it is still moving on the last row", () => {
+    it("it is still moving on the last row", () => {
       // @ts-ignore
       expect(board.toString()).to.equalShape(
         `...
@@ -69,7 +69,7 @@ describe("Falling blocks", () => {
       ).to.be.true;
     });
 
-    xit("it stops when it hits the bottom", () => {
+    it("it stops when it hits the bottom", () => {
       board.tick();
       // @ts-ignore
       expect(board.toString()).to.equalShape(

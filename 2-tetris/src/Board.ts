@@ -28,8 +28,12 @@ export class Board {
   }
 
   public tick(): void {
-    this.currentBlock?.moveDown();
-    this.updateBoard();
+    if (this.currentBlock?.getY() === this.height - 1) {
+      this.currentBlock = undefined;
+    } else {
+      this.currentBlock?.moveDown();
+      this.updateBoard();
+    }
   }
   public drop(blk: Block): void {
     if (this.hasFalling()) {
