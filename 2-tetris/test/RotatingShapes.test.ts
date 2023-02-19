@@ -1,37 +1,40 @@
-// import { expect } from "chai";
-// import { RotatingShape } from "../src/RotatingShape.mjs";
+import { expect } from "chai";
+import { RotatingShape } from "../src/RotatingShape";
 
-// describe("Rotating 3x3 shape", () => {
-//   const shape = new RotatingShape(
-//     `ABC
-//      DEF
-//      GHI`
-//   );
+describe("Rotating 3x3 shape", () => {
+  const shape = new RotatingShape(
+    `ABC
+     DEF
+     GHI`
+  );
 
-//   it("initial orientation", () => {
-//     expect(shape.toString()).to.equalShape(
-//       `ABC
-//        DEF
-//        GHI`
-//     );
-//   });
+  it("initial orientation", () => {
+    // @ts-ignore
+    expect(shape.toString()).to.equalShape(
+      `ABC
+       DEF
+       GHI`
+    );
+  });
 
-//   it("can be rotated right/clockwise", () => {
-//     expect(shape.rotateRight().toString()).to.equalShape(
-//       `GDA
-//        HEB
-//        IFC`
-//     );
-//   });
+  xit("can be rotated right/clockwise", () => {
+    // @ts-ignore
+    expect(shape.rotateRight().toString()).to.equalShape(
+      `GDA
+       HEB
+       IFC`
+    );
+  });
 
-//   it("can be rotated left/counter-clockwise", () => {
-//     expect(shape.rotateLeft().toString()).to.equalShape(
-//       `CFI
-//        BEH
-//        ADG`
-//     );
-//   });
-// });
+  xit("can be rotated left/counter-clockwise", () => {
+    // @ts-ignore
+    expect(shape.rotateLeft().toString()).to.equalShape(
+      `CFI
+       BEH
+       ADG`
+    );
+  });
+});
 
 // describe("Rotating 5x5 shape", () => {
 //   const shape = new RotatingShape(
@@ -43,6 +46,7 @@
 //   );
 
 //   it("initial orientation", () => {
+//     // @ts-ignore
 //     expect(shape.toString()).to.equalShape(
 //       `ABCDE
 //        FGHIJ
@@ -53,6 +57,7 @@
 //   });
 
 //   it("can be rotated right/clockwise", () => {
+//     // @ts-ignore
 //     expect(shape.rotateRight().toString()).to.equalShape(
 //       `UPKFA
 //        VQLGB
@@ -63,6 +68,7 @@
 //   });
 
 //   it("can be rotated left/counter-clockwise", () => {
+//     // @ts-ignore
 //     expect(shape.rotateLeft().toString()).to.equalShape(
 //       `EJOTY
 //        DINSX
