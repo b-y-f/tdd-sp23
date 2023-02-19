@@ -36,45 +36,45 @@ describe("Rotating 3x3 shape", () => {
   });
 });
 
-// describe("Rotating 5x5 shape", () => {
-//   const shape = new RotatingShape(
-//     `ABCDE
-//      FGHIJ
-//      KLMNO
-//      PQRST
-//      UVWXY`
-//   );
+describe("Rotating 5x5 shape", () => {
+  const shape = new RotatingShape(
+    `ABCDE
+     FGHIJ
+     KLMNO
+     PQRST
+     UVWXY`
+  );
 
-//   it("initial orientation", () => {
-//     // @ts-ignore
-//     expect(shape.toString()).to.equalShape(
-//       `ABCDE
-//        FGHIJ
-//        KLMNO
-//        PQRST
-//        UVWXY`
-//     );
-//   });
+  it("initial orientation", () => {
+    // @ts-ignore
+    expect(shape.toString()).to.equalShape(
+      `ABCDE
+       FGHIJ
+       KLMNO
+       PQRST
+       UVWXY`
+    );
+  });
 
-//   it("can be rotated right/clockwise", () => {
-//     // @ts-ignore
-//     expect(shape.rotateRight().toString()).to.equalShape(
-//       `UPKFA
-//        VQLGB
-//        WRMHC
-//        XSNID
-//        YTOJE`
-//     );
-//   });
+  it("can be rotated right/clockwise", () => {
+    // @ts-ignore
+    expect(shape.rotateRight().toString()).to.equalShape(
+      `UPKFA
+       VQLGB
+       WRMHC
+       XSNID
+       YTOJE`
+    );
+  });
 
-//   it("can be rotated left/counter-clockwise", () => {
-//     // @ts-ignore
-//     expect(shape.rotateLeft().toString()).to.equalShape(
-//       `EJOTY
-//        DINSX
-//        CHMRW
-//        BGLQV
-//        AFKPU`
-//     );
-//   });
-// });
+  it("can be rotated left/counter-clockwise", () => {
+    // @ts-ignore
+    expect(shape.rotateLeft().toString()).to.equalShape(
+      `EJOTY
+       DINSX
+       CHMRW
+       BGLQV
+       AFKPU`
+    );
+  });
+});
