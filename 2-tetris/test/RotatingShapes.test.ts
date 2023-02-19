@@ -26,7 +26,7 @@ describe("Rotating 3x3 shape", () => {
     );
   });
 
-  xit("can be rotated left/counter-clockwise", () => {
+  it("can be rotated left/counter-clockwise", () => {
     // @ts-ignore
     expect(shape.rotateLeft().toString()).to.equalShape(
       `CFI

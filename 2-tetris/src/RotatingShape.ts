@@ -27,17 +27,7 @@ export class RotatingShape {
   }
 
   public rotateLeft(): this {
-    const newShape: string[] = [];
-    for (let col = this.width - 1; col >= 0; col--) {
-      let newRow = "";
-      for (let row = 0; row < this.height; row++) {
-        newRow += this.shape[row][col];
-      }
-      newShape.push(newRow);
-    }
-    this.shape.splice(0, this.height, ...newShape);
-    this.orientation = (this.orientation + 3) % 4;
-    return this;
+    return this.rotateRight().rotateRight();
   }
 
   public toString(): string {
