@@ -1,9 +1,12 @@
 import { Block } from "./Block";
 
+type Cell = string | undefined;
+
 export class Board {
-  private width: number;
-  private height: number;
-  private board: (string | undefined)[][];
+  private readonly width: number;
+  private readonly height: number;
+  private readonly board: Cell[][];
+
   private currentBlock: Block | undefined;
   private fixed: Block[];
   constructor(width: number, height: number) {
@@ -15,14 +18,9 @@ export class Board {
   }
 
   private createBoard(height: number, width: number): string[][] {
-    const board: string[][] = [];
-    for (let i = 0; i < height; i++) {
-      board[i] = [];
-      for (let j = 0; j < width; j++) {
-        board[i][j] = ".";
-      }
-    }
-    return board;
+    return Array.from({ length: height }, () =>
+      Array.from({ length: width }, () => ".")
+    );
   }
 
   public hasFalling(): boolean {
@@ -31,14 +29,7 @@ export class Board {
 
   public tick(): void {
     if (this.hasFalling()) {
-      if (
-        this.currentBlock?.getY() === this.height - 1 ||
-        this.fixed.some(
-          (fixedBlk) =>
-            this.currentBlock &&
-            fixedBlk.getY() === this.currentBlock?.getY() + 1
-        )
-      ) {
+      if (this.isCollision()) {
         if (this.currentBlock) {
           this.fixed.push(this.currentBlock);
           this.currentBlock = undefined;
@@ -48,6 +39,15 @@ export class Board {
         this.updateBoard();
       }
     }
+  }
+
+  private isCollision(): boolean {
+    const isBottom: boolean = this.currentBlock?.getY() === this.height - 1;
+    const isTouchOthers: boolean = this.fixed.some(
+      (fixedBlk) =>
+        this.currentBlock && fixedBlk.getY() === this.currentBlock?.getY() + 1
+    );
+    return isBottom || isTouchOthers;
   }
 
   public drop(blk: Block): void {
@@ -86,13 +86,6 @@ export class Board {
   }
 
   public toString(): string {
-    let s = "";
-    for (let row = 0; row < this.height; row++) {
-      for (let col = 0; col < this.width; col++) {
-        s += this.board[row][col];
-      }
-      s += "\n";
-    }
-    return s;
+    return this.board.map((row) => row.join("")).join("\n") + "\n";
   }
 }
