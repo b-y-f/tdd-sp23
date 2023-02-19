@@ -30,12 +30,23 @@ export class Board {
   }
 
   public tick(): void {
-    if (this.currentBlock?.getY() === this.height - 1) {
-      this.fixed.push(this.currentBlock);
-      this.currentBlock = undefined;
-    } else {
-      this.currentBlock?.moveDown();
-      this.updateBoard();
+    if (this.hasFalling()) {
+      if (
+        this.currentBlock?.getY() === this.height - 1 ||
+        this.fixed.some(
+          (fixedBlk) =>
+            this.currentBlock &&
+            fixedBlk.getY() === this.currentBlock?.getY() + 1
+        )
+      ) {
+        if (this.currentBlock) {
+          this.fixed.push(this.currentBlock);
+          this.currentBlock = undefined;
+        }
+      } else {
+        this.currentBlock?.moveDown();
+        this.updateBoard();
+      }
     }
   }
 
