@@ -3,7 +3,7 @@
 // import { Board } from "../src/Board";
 // import { Tetromino } from "../src/Tetromino";
 
-// function fallToBottom(board) {
+// function fallToBottom(board: Board): void {
 //   for (let i = 0; i < 10; i++) {
 //     board.tick();
 //   }
