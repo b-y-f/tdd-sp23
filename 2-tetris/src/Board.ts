@@ -60,14 +60,17 @@ export class Board {
           this.board[row][col] = ".";
         }
 
-        const foundBlock = this.fixed.find(
-          (blk) => blk.getY() === row && blk.getX() === col
-        );
-        if (foundBlock) {
-          this.board[foundBlock.getY()][foundBlock.getX()] =
-            foundBlock.getColor();
-        }
+        this.renderFixedBlock(row, col);
       }
+    }
+  }
+
+  private renderFixedBlock(row: number, col: number): void {
+    const foundBlock = this.fixed.find(
+      (blk) => blk.getY() === row && blk.getX() === col
+    );
+    if (foundBlock) {
+      this.board[foundBlock.getY()][foundBlock.getX()] = foundBlock.getColor();
     }
   }
 
