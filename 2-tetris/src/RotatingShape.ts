@@ -1,23 +1,25 @@
 export class RotatingShape {
   private readonly width: number;
   private readonly height: number;
-  private readonly shape: string[];
+  private readonly shape: string[][];
   private orientation: number;
 
-  constructor(shape: string) {
-    const rows = shape.trim().split("\n");
+  constructor(shapeString: string) {
+    const rows = shapeString.trim().split("\n");
     this.height = rows.length;
     this.width = rows[0].length;
-    this.shape = rows.map((row) => row.trim().padEnd(this.width, "."));
+    this.shape = rows.map((row) =>
+      row.trim().padEnd(this.width, ".").split("")
+    );
     this.orientation = 0;
   }
 
   public rotateRight(): this {
-    const newShape: string[] = [];
+    const newShape: string[][] = [];
     for (let col = 0; col < this.width; col++) {
-      let newRow = "";
+      const newRow: string[] = [];
       for (let row = this.height - 1; row >= 0; row--) {
-        newRow += this.shape[row][col];
+        newRow.push(this.shape[row][col]);
       }
       newShape.push(newRow);
     }
@@ -31,6 +33,6 @@ export class RotatingShape {
   }
 
   public toString(): string {
-    return this.shape.join("\n") + "\n";
+    return this.shape.map((row) => row.join("")).join("\n") + "\n";
   }
 }
