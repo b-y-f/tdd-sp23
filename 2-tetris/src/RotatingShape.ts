@@ -13,15 +13,18 @@ export class RotatingShape {
     this.width = this.shape[0].length;
   }
 
+  public getHeight(): number {
+    return this.width;
+  }
+  public getWidth(): number {
+    return this.height;
+  }
+
   public rotateRight(): this {
     return this.rotate();
   }
 
   public rotateLeft(): this {
-    // if (this.currentStateIndex && this.allStates) {
-    //   this.currentStateIndex =
-    //     (this.currentStateIndex + 1) % this.allStates.length;
-    // }
     return this.rotate().rotate();
   }
 

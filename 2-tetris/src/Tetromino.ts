@@ -1,26 +1,44 @@
-import { RotatingShape } from "./RotatingShape";
+import { RotatingTetromino } from "./RotatingTetromino";
 
 export class Tetromino {
-  static readonly T_SHAPE = new RotatingShape(
-    `.T.
-     TTT
-     ...`
+  static T_SHAPE = new RotatingTetromino(
+    [
+      `.T.
+       TT.
+       .T.`,
+      `.T.
+       TTT
+       ...`,
+      `.T.
+       .TT
+       .T.`,
+      `...
+       TTT
+       .T.`,
+    ],
+    1
   );
-  // static readonly I_SHAPE = new Tetromino([
-  //   `.....
-  //    .....
-  //    IIII.
-  //    .....
-  //    .....`,
-  //   `..I..
-  //    ..I..
-  //    ..I..
-  //    ..I..
-  //    .....`,
-  // ]);
-  // static readonly O_SHAPE = new Tetromino([
-  //   `.OO
-  //    .OO
-  //    ...`,
-  // ]);
+  static I_SHAPE = new RotatingTetromino(
+    [
+      `.....
+       .....
+       IIII.
+       .....
+       .....`,
+      `..I..
+       ..I..
+       ..I..
+       ..I..
+       .....`,
+    ],
+    0
+  );
+  static readonly O_SHAPE = new RotatingTetromino(
+    [
+      `.OO
+       .OO
+       ...`,
+    ],
+    0
+  );
 }
