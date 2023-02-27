@@ -2,27 +2,9 @@ export class RotatingShape {
   private readonly width: number;
   private readonly height: number;
   private readonly shape: string[][];
-  private currentStateIndex: number;
 
-  constructor();
-  // eslint-disable-next-line no-unused-vars
-  constructor(shapeStrings: string[], stateIndex: number);
-  // eslint-disable-next-line no-unused-vars
-  constructor(shapeString: string);
-  constructor(...args: any[]) {
-    this.currentStateIndex = -1;
-
-    let shapeString;
-    let shapeStrings;
-    if (args.length === 1) {
-      shapeString = args[0];
-    } else {
-      shapeStrings = args[0];
-      this.currentStateIndex = args[1];
-      shapeString = shapeStrings[this.currentStateIndex];
-    }
-
-    const rows = shapeString?.trim().split("\n") ?? [];
+  constructor(shapeString: string) {
+    const rows = shapeString.trim().split("\n");
     this.shape = rows.map((row: string) =>
       row.trim().padEnd(this.width, ".").split("")
     );
@@ -32,14 +14,18 @@ export class RotatingShape {
   }
 
   public rotateRight(): this {
-    return this.updateState();
+    return this.rotate();
   }
 
   public rotateLeft(): this {
-    return this.updateState().updateState();
+    // if (this.currentStateIndex && this.allStates) {
+    //   this.currentStateIndex =
+    //     (this.currentStateIndex + 1) % this.allStates.length;
+    // }
+    return this.rotate().rotate();
   }
 
-  private updateState(): this {
+  private rotate(): this {
     // this is rotate right
     const newShape: string[][] = [];
     for (let col = 0; col < this.width; col++) {
