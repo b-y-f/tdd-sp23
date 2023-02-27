@@ -1,10 +1,12 @@
+import { Block } from "./Block";
 import { RotatingShape } from "./RotatingShape";
 
-export class RotatingTetromino {
+export class RotatingTetromino extends Block {
   private readonly states: string[];
   private currentStateIndex: number;
 
-  constructor(states: string[], currentStateIndex: number) {
+  constructor(states: string[], currentStateIndex: number, color: string) {
+    super(color);
     this.states = states;
     this.currentStateIndex = currentStateIndex;
   }

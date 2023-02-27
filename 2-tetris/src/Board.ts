@@ -3,6 +3,15 @@ import { Block } from "./Block";
 type Cell = string | undefined;
 
 export class Board {
+  moveDown() {
+    throw new Error("Method not implemented.");
+  }
+  moveRight() {
+    throw new Error("Method not implemented.");
+  }
+  moveLeft() {
+    throw new Error("Method not implemented.");
+  }
   private readonly width: number;
   private readonly height: number;
   private readonly board: Cell[][];
